@@ -834,7 +834,7 @@ export default function App() {
             {/* Social Links */}
             <div className="flex flex-wrap gap-4 sm:gap-6 justify-center mt-10 sm:mt-12">
               {[
-                { name: "GitHub", url: "https://github.com/guravana22" },
+                // { name: "GitHub", url: "https://github.com/guravana22" },
                 { name: "LinkedIn", url: "https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" },
               ].map((social) => (
                 <motion.a
@@ -870,9 +870,9 @@ export default function App() {
         }`}>
           <div>© 2026 All Rights Reserved.</div>
           <div className="flex gap-8">
-            <a href="https://github.com/guravana22" className={`transition-colors duration-300 ${
+            {/* <a href="https://github.com/guravana22" className={`transition-colors duration-300 ${
               isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
-            }`}>GitHub</a>
+            }`}>GitHub</a> */}
             <a href="https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" className={`transition-colors duration-300 ${
               isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
             }`}>LinkedIn</a>
