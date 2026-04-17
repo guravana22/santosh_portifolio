@@ -58,7 +58,7 @@ export default function App() {
 
 
   const navLinks = [
-    { name: 'Home', href: '#' },
+    // { name: 'Home', href: '#' },
     { name: 'About', href: '#about' },
     { name: 'Projects', href: '#projects' },
     { name: 'Contact', href: '#contact' }
@@ -159,7 +159,7 @@ export default function App() {
               <motion.button
                 onClick={toggleMobileMenu}
                 whileTap={{ scale: 0.95 }}
-                className={`p-2 rounded-lg transition-all duration-300 ${
+                className={`p-2 rounded-lg transition-all duration-300 cursor-pointer ${
                   isDark
                     ? 'bg-white/10 hover:bg-white/20 border border-white/20'
                     : 'bg-black/5 hover:bg-black/10 border border-black/10'
@@ -203,7 +203,20 @@ export default function App() {
                   x: mobileMenuOpen ? 0 : -20
                 }}
                 transition={{ delay: index * 0.1, duration: 0.3 }}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                e.preventDefault(); // stop default jump
+
+                const target = document.querySelector(link.href);
+
+                setMobileMenuOpen(false); // close menu first
+
+                setTimeout(() => {
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }, 300); // match your animation duration
+              }}
+                // onClick={() => setMobileMenuOpen(false)}
                 className={`block py-3 px-4 rounded-xl font-['Outfit'] text-[15px] tracking-wide transition-all duration-300 ${
                   isDark
                     ? 'text-gray-300 hover:text-white hover:bg-white/10'
@@ -655,13 +668,13 @@ export default function App() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {[
-                 { image: trustin, title: "Trustin", description: "Regulated digital escrow platform in the UAE enabling secure, transparent transactions with instant IBAN accounts, multi-party support, and real-time fund tracking for real estate, trade, and high-value deals.", tag: "Webflow" , link :"https://t-therapyswiss.com/" },
+                 { image: trustin, title: "Trustin", description: "Regulated digital escrow platform in the UAE enabling secure, transparent transactions with instant IBAN accounts, multi-party support, and real-time fund tracking for real estate, trade, and high-value deals.", tag: "Webflow" , link :"https://www.trustin.ae/" },
                 { image: tTherapy, title: "T-Therapy", description: "Swiss healthcare platform offering non-invasive pain relief through static magnetic field therapy, featuring clinical applications, certified medical technology, and partner network management.", tag: "React/Motion" , link :"https://t-therapyswiss.com/" },
                  { image: fat , title: "Fahad AL Tamimi Law Firm",  description: "Corporate legal services platform for a Saudi-based law firm, showcasing expertise in company formation, regulatory compliance, contract management, and AI-integrated client portal for real-time case tracking.",  tag: "React/Motion", link :"https://fat-website.erpforce.co/" },
                                  { image: yaswash, title: "YasWash", description: "Premium doorstep car wash platform in the UAE offering eco-friendly cleaning services, real-time booking via WhatsApp, and professional on-demand car care across Dubai and Abu Dhabi.",  tag: "ReactJS", link :"https://yaswash.com/" },
                                  { image: ondemandlabs, title: "Ondemandlabs", description: "Cloud-native DevOps platform delivering infrastructure automation, CI/CD pipelines, and managed cloud services to help businesses build scalable, secure, and high-performance applications with faster deployment cycles.", tag: "ReactJS", link :"https://ondemandlabs.com/" },
                                  { image: erpforce, title: "ERPForce", description: "AI-powered ERP platform designed for businesses in the UAE and Middle East, offering integrated modules for finance, HRMS, inventory, sales, and manufacturing with real-time analytics, automation, and enterprise-grade security.",  tag: "NextJS", link :"https://erpforce.ai/en-ae/" },
-                { image: weforce, title: "WEForce", description: "Digital transformation platform delivering custom software, AI solutions, cloud integration, and scalable IT services to help businesses optimize operations and drive growth.", tag: "NextJS", link :"https://weforce.co/en-sa/" },
+                { image: weforce, title: "WEForce", description: "Digital transformation platform delivering custom software, AI solutions, cloud integration, and scalable IT services to help businesses optimize operations and drive growth.", tag: "NextJS", link :"https://weforce.co/" },
                 { image: quantasec, title: "QuantaSec",  description: "Security and surveillance solutions platform delivering SIRA-compliant CCTV systems, access control, and smart ELV integrations for residential and commercial environments in the UAE.",  tag: "HTML5/Javascript", link :"https://www.quantasec.ae/" },
                 { image: retrofit, title: "Retrofit Turbine PartsTrading FZ",  description: "Industrial solutions platform delivering high-performance gas and steam turbine repair, refurbishment, and spare parts supply with global support and engineering expertise.",  tag: "HTML5/Javascript", link :"https://www.retrofitturbineparts.com/" }
               ].map((project, index) => (
