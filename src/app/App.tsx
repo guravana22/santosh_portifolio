@@ -832,9 +832,9 @@ export default function App() {
             </div>
 
             {/* Social Links */}
-            <div className="flex flex-wrap gap-4 sm:gap-6 justify-center mt-10 sm:mt-12">
+            {/* <div className="flex flex-wrap gap-4 sm:gap-6 justify-center mt-10 sm:mt-12">
               {[
-                // { name: "GitHub", url: "https://github.com/guravana22" },
+                { name: "GitHub", url: "https://github.com/guravana22" },
                 { name: "LinkedIn", url: "https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" },
               ].map((social) => (
                 <motion.a
@@ -853,7 +853,7 @@ export default function App() {
                   {social.name}
                 </motion.a>
               ))}
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </div>
@@ -865,17 +865,17 @@ export default function App() {
       <footer className={`px-8 pb-10 border-t transition-colors duration-500 ${
         isDark ? 'border-white/5' : 'border-black/5'
       }`}>
-        <div className={`max-w-[1400px] mx-auto flex justify-between items-center font-['Outfit'] text-[12px] tracking-wide flex-wrap gap-4 pt-10 transition-colors duration-300 ${
+        <div className={`max-w-[1400px] mx-auto flex justify-center items-center font-['Outfit'] text-[12px] tracking-wide flex-wrap gap-4 pt-10 transition-colors duration-300 ${
           isDark ? 'text-gray-500' : 'text-[#8a8a8a]'
         }`}>
-          <div>© 2026 All Rights Reserved.</div>
+          <div className='text-center'>© 2026 All Rights Reserved.</div>
           <div className="flex gap-8">
             {/* <a href="https://github.com/guravana22" className={`transition-colors duration-300 ${
               isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
             }`}>GitHub</a> */}
-            <a href="https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" className={`transition-colors duration-300 ${
+            {/* <a href="https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" className={`transition-colors duration-300 ${
               isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
-            }`}>LinkedIn</a>
+            }`}>LinkedIn</a> */}
             {/* <a href="#" className={`transition-colors duration-300 ${
               isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
             }`}>Twitter</a> */}
