@@ -19,13 +19,13 @@ import { Linkedin, Mail, MapPin } from "lucide-react";
 
 
 export default function App() {
-  const heroRef = useRef(null);
+  // const heroRef = useRef(null);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showDesktopToggle, setShowDesktopToggle] = useState(false);
 
   const { scrollYProgress } = useScroll({
-    target: heroRef,
+    // target: heroRef,
     offset: ["start start", "end start"]
   });
 
@@ -233,7 +233,9 @@ export default function App() {
       {/* Hero Section */}
      
       {/* Hero Section */}
-      <section ref={heroRef} className="pt-32 pb-20 px-8 relative overflow-hidden">
+      <section 
+      // ref={heroRef} 
+      className="pt-32 pb-20 px-8 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Gradient Overlay */}
@@ -395,6 +397,34 @@ export default function App() {
           </motion.div>
         </motion.div>
       </section>
+
+      {/* <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 1.2, duration: 0.6 }}
+  className="flex flex-col items-center gap-2"
+>
+  <div
+    className={`font-['Outfit'] text-[10px] tracking-[3px] uppercase ${
+      isDark ? "text-gray-500" : "text-gray-400"
+    }`}
+  >
+    Scroll Down
+  </div>
+  <div
+    className={`w-[22px] h-[36px] rounded-full border flex justify-center items-start p-1 ${
+      isDark ? "border-white/20" : "border-black/20"
+    }`}
+  >
+    <motion.div
+      animate={{ y: [0, 10, 0] }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+      className={`w-[4px] h-[4px] rounded-full ${
+        isDark ? "bg-white" : "bg-black"
+      }`}
+    />
+  </div>
+</motion.div> */}
 
       {/* About Me Section - Redesigned */}
       <section className="py-20 px-8" id='about'>
@@ -792,57 +822,98 @@ export default function App() {
             </h2>
 
             {/* Contact Cards */}
-            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6 justify-center mb-10 sm:mb-12">
-              {[
-                { icon: Mail, label: "Email", value: "guravana22@gmail.com" },
-                { icon: MapPin, label: "Location", value: "Rajam, Andhra Pradesh, India" },
-              ].map((contact) => {
-                const Icon = contact.icon;
+          
+          
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6 justify-center mb-10 sm:mb-12">
+  {[
+    {
+      icon: Mail,
+      label: "Email",
+      value: "guravana22@gmail.com",
+      link: "mailto:guravana22@gmail.com",
+      external: false, // 👈 important
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: "Rajam, Andhra Pradesh, India",
+      link: null,
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "linkedin.com/in/santosh-guravana-8a8a5828b",
+      link: "https://www.linkedin.com/in/santosh-guravana-8a8a5828b/",
+      external: true,
+    },
+  ].map((contact) => {
+    const Icon = contact.icon;
+    const isClickable = !!contact.link;
 
-                return (
-                  <div
-                    key={contact.label}
-                    className={`group w-full sm:w-auto px-5 sm:px-6 py-3 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
-                      isDark
-                        ? "bg-white/5 border border-white/10"
-                        : "bg-white/60 border border-white/40"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* Icon */}
-                      <Icon
-                        size={18}
-                        className={`transition-all duration-300 ${
-                          isDark
-                            ? "text-gray-400 group-hover:text-blue-400"
-                            : "text-[#555] group-hover:text-blue-600"
-                        }`}
-                      />
+    const content = (
+      <div
+        className={`group w-full sm:w-auto px-5 sm:px-6 py-3 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
+          isClickable ? "cursor-pointer" : "cursor-default"
+        } ${
+          isDark
+            ? "bg-white/5 border border-white/10 hover:bg-white/10"
+            : "bg-white/60 border border-white/40 hover:bg-white"
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          {/* Icon (fix compression) */}
+          <div className="flex-shrink-0">
+            <Icon
+              size={18}
+              className={`transition-all duration-300 ${
+                isDark
+                  ? "text-gray-400 group-hover:text-blue-400"
+                  : "text-[#555] group-hover:text-blue-600"
+              }`}
+            />
+          </div>
 
-                      {/* Text */}
-                      <div className="text-left">
-                        <div
-                          className={`font-['Outfit'] text-[10px] sm:text-[11px] uppercase tracking-wider transition-colors duration-300 ${
-                            isDark ? "text-gray-500" : "text-[#8a8a8a]"
-                          }`}
-                        >
-                          {contact.label}
-                        </div>
-
-                        <div
-                          className={`font-['Outfit'] text-[13px] sm:text-[14px] transition-colors duration-300 ${
-                            isDark ? "text-white" : "text-[#1a1a1a]"
-                          }`}
-                          style={{ fontWeight: 500 }}
-                        >
-                          {contact.value}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+          {/* Text */}
+          <div className="text-left overflow-hidden">
+            <div
+              className={`font-['Outfit'] text-[10px] sm:text-[11px] uppercase tracking-wider ${
+                isDark ? "text-gray-500" : "text-[#8a8a8a]"
+              }`}
+            >
+              {contact.label}
             </div>
+
+            <div
+              className={`font-['Outfit'] text-[13px] sm:text-[14px] truncate ${
+                isDark ? "text-white" : "text-[#1a1a1a]"
+              }`}
+              style={{ fontWeight: 500 }}
+            >
+              {contact.value}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    // 👉 Handle click vs non-click properly
+    if (contact.link) {
+      return (
+        <a
+          key={contact.label}
+          href={contact.link}
+          {...(contact.external
+            ? { target: "_blank", rel: "noopener noreferrer" } // LinkedIn only
+            : {})}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return <div key={contact.label}>{content}</div>;
+  })}
+</div>
 
             {/* Social Links */}
             {/* <div className="flex flex-wrap gap-4 sm:gap-6 justify-center mt-10 sm:mt-12">
@@ -875,13 +946,17 @@ export default function App() {
 </section>
 
       {/* Footer */}
-      <footer className={`px-8 pb-10 border-t transition-colors duration-500 ${
+      <footer className={`px-8 pb-5 border-t transition-colors duration-500 ${
         isDark ? 'border-white/5' : 'border-black/5'
       }`}>
-        <div className={`max-w-[1400px] mx-auto flex justify-center items-center font-['Outfit'] text-[12px] tracking-wide flex-wrap gap-4 pt-10 transition-colors duration-300 ${
+        <div className={`max-w-[1400px] mx-auto flex justify-center items-center font-['Outfit'] text-[12px] tracking-wide flex-wrap gap-4 pt-5 transition-colors duration-300 ${
           isDark ? 'text-gray-500' : 'text-[#8a8a8a]'
         }`}>
-          <div className='text-center'>© 2026 All Rights Reserved.</div>
+            <div className="text-center flex items-center gap-1">
+      ©{new Date().getFullYear()} All Rights Reserved. Made with
+      <span className="text-red-500 animate-pulse">❤️</span>
+      by Santosh Guravana
+    </div>
           <div className="flex gap-8">
             {/* <a href="https://github.com/guravana22" className={`transition-colors duration-300 ${
               isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
