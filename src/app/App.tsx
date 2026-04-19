@@ -458,7 +458,7 @@ export default function App() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5"
+                className="grid grid-cols-2 md:grid-cols-2 gap-4 sm:gap-5"
               >
                 {[
                   { icon: react, title: "React.js", level: "Expert" },
@@ -606,7 +606,7 @@ export default function App() {
                 <div className="space-y-8 relative before:absolute before:left-[7px] before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-purple-500/50 before:to-transparent">
                   {[
                     { degree: "Master of Computer Applications(MCA)", institution: "Dr.B.R Ambedkar University", year: "2018 - 2020" },
-                    { degree: "B.Sc(Computer Sceience)", institution: "Sri G.C.S.R Degree College", year: "2014-2017" },
+                    { degree: "B.Sc (Computer Science)" , institution: "Sri G.C.S.R Degree College", year: "2014-2017" },
                     // { degree: "JavaScript Algorithms", institution: "freeCodeCamp", year: "2022" }
                   ].map((qual, index) => (
                     <motion.div
