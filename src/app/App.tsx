@@ -13,6 +13,7 @@ import ondemandlabs from "../app/assets/ondemandlabs.png";
 import react from "../app/assets/react.png";
 import nodejs from "../app/assets/nodejs.png";
 import tailwind from "../app/assets/tailwind.png";
+import aaks from "../app/assets/aaks.png";
 import { Linkedin, Mail, MapPin } from "lucide-react";
 
 
@@ -682,7 +683,7 @@ export default function App() {
               <div className={`inline-block px-5 py-2 rounded-full backdrop-blur-sm mb-4 font-['Outfit'] text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
                 isDark ? 'bg-white/5 text-gray-400' : 'bg-white/40 text-[#6a6a6a]'
               }`} style={{ fontWeight: 500 }}>
-                Portfolio
+                Our Work
               </div>
               <h2 className={`font-['Cormorant_Garamond'] text-[46px] leading-[1.2] tracking-tight mb-4 transition-colors duration-300 ${
                 isDark ? 'text-white' : 'text-[#1a1a1a]'
@@ -701,9 +702,16 @@ export default function App() {
                  { image: trustin, title: "Trustin", description: "Regulated digital escrow platform in the UAE enabling secure, transparent transactions with instant IBAN accounts, multi-party support, and real-time fund tracking for real estate, trade, and high-value deals.", tag: "Webflow" , link :"https://www.trustin.ae/" },
                 { image: tTherapy, title: "T-Therapy", description: "Swiss healthcare platform offering non-invasive pain relief through static magnetic field therapy, featuring clinical applications, certified medical technology, and partner network management.", tag: "React/Motion" , link :"https://t-therapyswiss.com/" },
                  { image: fat , title: "Fahad AL Tamimi Law Firm",  description: "Corporate legal services platform for a Saudi-based law firm, showcasing expertise in company formation, regulatory compliance, contract management, and AI-integrated client portal for real-time case tracking.",  tag: "React/Motion", link :"https://fat-website.erpforce.co/" },
+                 {
+  image: aaks,
+  title: "AAKS & BROS Turbo Machinery L.L.C",
+  description: "OEM-quality turbomachinery services specializing in gas and steam turbine maintenance, repair, refurbishment, and lifecycle support for power, oil & gas, and industrial sectors across the GCC region.",
+  tag: "React/Motion",
+  link: "https://abturbomachinery.com/"
+},
                                  { image: yaswash, title: "YasWash", description: "Premium doorstep car wash platform in the UAE offering eco-friendly cleaning services, real-time booking via WhatsApp, and professional on-demand car care across Dubai and Abu Dhabi.",  tag: "ReactJS", link :"https://yaswash.com/" },
                                  { image: ondemandlabs, title: "Ondemandlabs", description: "Cloud-native DevOps platform delivering infrastructure automation, CI/CD pipelines, and managed cloud services to help businesses build scalable, secure, and high-performance applications with faster deployment cycles.", tag: "ReactJS", link :"https://ondemandlabs.com/" },
-                                 { image: erpforce, title: "ERPForce", description: "AI-powered ERP platform designed for businesses in the UAE and Middle East, offering integrated modules for finance, HRMS, inventory, sales, and manufacturing with real-time analytics, automation, and enterprise-grade security.",  tag: "NextJS", link :"https://erpforce.ai/en-ae/" },
+                                 { image: erpforce, title: "ERPForce", description: "AI-powered ERP platform designed for businesses in the UAE and Middle East, offering integrated modules for finance, HRMS, inventory, sales, and manufacturing with real-time analytics, automation, and enterprise-grade security.",  tag: "NextJS/next-intl", link :"https://erpforce.ai/" },
                 { image: weforce, title: "WEForce", description: "Digital transformation platform delivering custom software, AI solutions, cloud integration, and scalable IT services to help businesses optimize operations and drive growth.", tag: "NextJS", link :"https://weforce.co/" },
                 { image: quantasec, title: "QuantaSec",  description: "Security and surveillance solutions platform delivering SIRA-compliant CCTV systems, access control, and smart ELV integrations for residential and commercial environments in the UAE.",  tag: "HTML5/Javascript", link :"https://www.quantasec.ae/" },
                 { image: retrofit, title: "Retrofit Turbine PartsTrading FZ",  description: "Industrial solutions platform delivering high-performance gas and steam turbine repair, refurbishment, and spare parts supply with global support and engineering expertise.",  tag: "HTML5/Javascript", link :"https://www.retrofitturbineparts.com/" }
