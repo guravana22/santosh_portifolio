@@ -14,6 +14,8 @@ import react from "../app/assets/react.png";
 import nodejs from "../app/assets/nodejs.png";
 import tailwind from "../app/assets/tailwind.png";
 import aaks from "../app/assets/aaks.png";
+import profile from "../app/assets/profile_pic.png";
+
 import { Linkedin, Mail, MapPin } from "lucide-react";
 
 
@@ -319,7 +321,7 @@ export default function App() {
     
     {/* Image */}
     <ImageWithFallback
-      src="https://media.licdn.com/dms/image/v2/D5603AQEU8PaGGUWFKQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1725679034919?e=1778112000&v=beta&t=CU6srQ8PfqnNKSVBY0U30XY26iZCjhPUGTdaEdo1yv0"
+      src={profile}
       alt="Profile"
       className={`w-full h-full object-cover transition-all duration-500 ${
         isDark
