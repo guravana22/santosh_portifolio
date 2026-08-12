@@ -5,6 +5,7 @@ import tTherapy from '../app/assets/t-therapy.png';
 import erpforce from '../app/assets/erpforce.png';
 import weforce from '../app/assets/weforce.png';
 import fat from '../app/assets/fat.png';
+import fatlanding from "../app/assets/fat_landing.png"
 import quantasec from '../app/assets/quantasec.png';
 import retrofit from '../app/assets/retrofit.png';
 import trustin from "../app/assets/trustin.png";
@@ -703,13 +704,20 @@ export default function App() {
               {[
                  { image: trustin, title: "Trustin", description: "Regulated digital escrow platform in the UAE enabling secure, transparent transactions with instant IBAN accounts, multi-party support, and real-time fund tracking for real estate, trade, and high-value deals.", tag: "Webflow" , link :"https://www.trustin.ae/" },
                 { image: tTherapy, title: "T-Therapy", description: "Swiss healthcare platform offering non-invasive pain relief through static magnetic field therapy, featuring clinical applications, certified medical technology, and partner network management.", tag: "React/Motion" , link :"https://t-therapyswiss.com/" },
-                 { image: fat , title: "Fahad AL Tamimi Law Firm",  description: "Corporate legal services platform for a Saudi-based law firm, showcasing expertise in company formation, regulatory compliance, contract management, and AI-integrated client portal for real-time case tracking.",  tag: "React/Motion", link :"https://fat-website.erpforce.co/" },
+                 { image: fat , title: "Fahad AL Tamimi Law Firm",  description: "Corporate legal services platform for a Saudi-based law firm, showcasing expertise in company formation, regulatory compliance, contract management, and AI-integrated client portal for real-time case tracking.",  tag: "React/Motion", link :"https://www.tamimilawfirm.com/" },
                  {
   image: aaks,
   title: "AAKS & BROS Turbo Machinery L.L.C",
   description: "OEM-quality turbomachinery services specializing in gas and steam turbine maintenance, repair, refurbishment, and lifecycle support for power, oil & gas, and industrial sectors across the GCC region.",
   tag: "React/Motion",
   link: "https://abturbomachinery.com/"
+},
+{
+  image: fatlanding,
+  title: "Fahad Al-Tamimi Law Firm — Landing Page",
+  description: "Marketing landing page for a Saudi-based law firm serving foreign investors, covering MISA registration, M&A, dispute resolution, and Vision 2030 compliance, with consultation booking and client testimonials.",
+  tag: "React/Motion",
+  link: "https://www.tamimilawfirm.com/welcome"
 },
                                  { image: yaswash, title: "YasWash", description: "Premium doorstep car wash platform in the UAE offering eco-friendly cleaning services, real-time booking via WhatsApp, and professional on-demand car care across Dubai and Abu Dhabi.",  tag: "ReactJS", link :"https://yaswash.com/" },
                                  { image: ondemandlabs, title: "Ondemandlabs", description: "Cloud-native DevOps platform delivering infrastructure automation, CI/CD pipelines, and managed cloud services to help businesses build scalable, secure, and high-performance applications with faster deployment cycles.", tag: "ReactJS", link :"https://ondemandlabs.com/" },
@@ -965,7 +973,7 @@ export default function App() {
             <div className="text-center flex items-center gap-1">
       ©{new Date().getFullYear()} All Rights Reserved. Made with
       <span className="text-red-500 animate-pulse">❤️</span>
-      by Santosh Guravana
+      by <span className='text-black font-bold'>Santosh Guravana</span>
     </div>
           <div className="flex gap-8">
             {/* <a href="https://github.com/guravana22" className={`transition-colors duration-300 ${
