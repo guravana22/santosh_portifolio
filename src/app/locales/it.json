@@ -1,0 +1,76 @@
+{
+  "nav.top": "Torna su",
+  "nav.work": "Lavori",
+  "nav.about": "Chi sono",
+  "nav.contact": "Contatti",
+  "nav.toLight": "Passa al tema chiaro",
+  "nav.toDark": "Passa al tema scuro",
+  "nav.language": "Cambia lingua",
+
+  "loader.tagline": "Santosh Guravana, ingegnere front-end",
+
+  "hero.first": "Santosh",
+  "hero.last": "Guravana",
+  "hero.photoLabel": "Santosh Guravana su LinkedIn",
+  "hero.intro": "Front-end engineer presso Trustin. Realizzo interfacce React veloci e accessibili per team fintech, legali e industriali negli Emirati, in Qatar e in Arabia Saudita.",
+  "hero.ctaPrimary": "Avvia un progetto",
+  "hero.ctaSecondary": "Guarda i miei lavori",
+  "hero.location": "Rajam, India. Qui sono le {time}.",
+
+  "statement.text": "Realizzo interfacce per prodotti in cui la fiducia conta: escrow, legale, sanità e software enterprise. Veloci da caricare, facili da usare e curate nei dettagli.",
+
+  "work.title": "Lavori selezionati",
+  "work.subtitle": "Siti reali di clienti che ho realizzato, dalle piattaforme escrow agli studi legali.",
+  "work.visit": "Visita il sito",
+  "work.open": "Apri",
+  "work.siteAlt": "Sito web di {title}",
+
+  "projects.trustinQatar": "Piattaforma di escrow digitale in Qatar per transazioni sicure e trasparenti tra aziende e privati.",
+  "projects.trustin": "Escrow regolamentato negli Emirati con conti IBAN istantanei, supporto multi-parte e tracciamento dei fondi in tempo reale.",
+  "projects.tTherapy": "Piattaforma sanitaria svizzera per il sollievo dal dolore non invasivo, con pagine cliniche e rete di partner.",
+  "projects.fahad": "Sito di servizi legali per aziende per uno studio saudita, con portale clienti integrato con l’AI.",
+  "projects.erpforce": "ERP basato su AI per finanza, HRMS, magazzino, vendite e produzione in tutto il Medio Oriente.",
+  "projects.aaks": "Manutenzione, riparazione e supporto al ciclo di vita di turbine a gas e a vapore in tutta l’area GCC.",
+
+  "more.title": "Altri progetti",
+  "marquee.label": "Tecnologie con cui lavoro",
+
+  "about.title": "Chi sono",
+  "about.intro": "Tre anni a costruire front-end in produzione: dai flussi escrow regolamentati ai siti legali multilingua. Mi interessano i dettagli che le persone notano solo quando mancano.",
+  "stats.years": "anni di esperienza",
+  "stats.sites": "siti pubblicati",
+  "stats.countries": "paesi serviti",
+
+  "experience.title": "Esperienza",
+  "experience.trustin.role": "Software Engineer",
+  "experience.trustin.years": "2024 – Presente",
+  "experience.trustin.note": "Sviluppo prodotti di escrow digitale sicuri con React e Tailwind: tracciamento delle transazioni in tempo reale, integrazioni API e UI responsive.",
+  "experience.headrun.role": "Associate Software Engineer",
+  "experience.headrun.years": "2022 – 2024",
+  "experience.headrun.note": "Ho realizzato interfacce responsive e cross-browser in HTML, CSS e JavaScript a partire da concept di design.",
+
+  "education.title": "Formazione",
+  "education.mca.degree": "MCA, Applicazioni Informatiche",
+  "education.bsc.degree": "B.Sc, Informatica",
+
+  "skills.title": "Stack principale",
+  "skills.expert": "Esperto",
+  "skills.advanced": "Avanzato",
+
+  "services.title": "Cosa faccio",
+  "services.react.title": "Sviluppo React",
+  "services.react.desc": "App basate su componenti con una gestione dello stato pulita.",
+  "services.responsive.title": "Design responsive",
+  "services.responsive.desc": "Layout mobile-first che reggono su qualsiasi schermo.",
+  "services.performance.title": "Prestazioni",
+  "services.performance.desc": "Caricamenti rapidi e interazioni fluide.",
+  "services.api.title": "Integrazione API",
+  "services.api.desc": "API REST e sincronizzazione dei dati in tempo reale.",
+
+  "contact.title": "Hai un progetto? Parliamone.",
+  "contact.email": "Email",
+  "contact.linkedin": "LinkedIn",
+  "contact.location": "Rajam, Andhra Pradesh, India",
+
+  "footer.copyright": "© {year} {name}"
+}

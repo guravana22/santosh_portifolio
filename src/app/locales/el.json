@@ -1,0 +1,76 @@
+{
+  "nav.top": "Επιστροφή στην κορυφή",
+  "nav.work": "Έργα",
+  "nav.about": "Σχετικά",
+  "nav.contact": "Επικοινωνία",
+  "nav.toLight": "Αλλαγή σε φωτεινό θέμα",
+  "nav.toDark": "Αλλαγή σε σκούρο θέμα",
+  "nav.language": "Αλλαγή γλώσσας",
+
+  "loader.tagline": "Σαντός Γκουραβάνα, μηχανικός front-end",
+
+  "hero.first": "Σαντός",
+  "hero.last": "Γκουραβάνα",
+  "hero.photoLabel": "Ο Σαντός Γκουραβάνα στο LinkedIn",
+  "hero.intro": "Μηχανικός front-end στην Trustin. Φτιάχνω γρήγορες, προσβάσιμες διεπαφές React για ομάδες fintech, νομικών και βιομηχανίας σε ΗΑΕ, Κατάρ και Σαουδική Αραβία.",
+  "hero.ctaPrimary": "Ξεκινήστε ένα έργο",
+  "hero.ctaSecondary": "Δείτε τη δουλειά μου",
+  "hero.location": "Ραζάμ, Ινδία. Εδώ η ώρα είναι {time}.",
+
+  "statement.text": "Φτιάχνω διεπαφές για προϊόντα όπου μετράει η εμπιστοσύνη: escrow, νομικές υπηρεσίες, υγεία και λογισμικό επιχειρήσεων. Γρήγορες στη φόρτωση, εύχρηστες και προσεγμένες.",
+
+  "work.title": "Επιλεγμένα έργα",
+  "work.subtitle": "Ζωντανοί ιστότοποι πελατών που έχω φτιάξει, από πλατφόρμες escrow έως δικηγορικά γραφεία.",
+  "work.visit": "Επίσκεψη στον ιστότοπο",
+  "work.open": "Άνοιγμα",
+  "work.siteAlt": "Ιστότοπος {title}",
+
+  "projects.trustinQatar": "Ψηφιακή πλατφόρμα escrow στο Κατάρ για ασφαλείς και διαφανείς συναλλαγές μεταξύ επιχειρήσεων και ιδιωτών.",
+  "projects.trustin": "Ρυθμιζόμενο escrow στα ΗΑΕ με άμεσους λογαριασμούς IBAN, υποστήριξη πολλών μερών και παρακολούθηση κεφαλαίων σε πραγματικό χρόνο.",
+  "projects.tTherapy": "Ελβετική πλατφόρμα υγείας για μη επεμβατική ανακούφιση από τον πόνο, με κλινικές σελίδες και δίκτυο συνεργατών.",
+  "projects.fahad": "Ιστότοπος νομικών υπηρεσιών για σαουδαραβικό δικηγορικό γραφείο, με πύλη πελατών ενσωματωμένης τεχνητής νοημοσύνης.",
+  "projects.erpforce": "ERP με τεχνητή νοημοσύνη για χρηματοοικονομικά, HRMS, αποθέματα, πωλήσεις και παραγωγή σε όλη τη Μέση Ανατολή.",
+  "projects.aaks": "Συντήρηση, επισκευή και υποστήριξη κύκλου ζωής στροβίλων αερίου και ατμού σε όλες τις χώρες του GCC.",
+
+  "more.title": "Επίσης έχω φτιάξει",
+  "marquee.label": "Τεχνολογίες που χρησιμοποιώ",
+
+  "about.title": "Σχετικά",
+  "about.intro": "Τρία χρόνια δημιουργίας front-end για παραγωγή: από ρυθμιζόμενες ροές escrow έως πολύγλωσσους νομικούς ιστότοπους. Με νοιάζουν οι λεπτομέρειες που οι άνθρωποι παρατηρούν μόνο όταν λείπουν.",
+  "stats.years": "χρόνια εμπειρίας",
+  "stats.sites": "ιστότοποι σε παραγωγή",
+  "stats.countries": "χώρες που εξυπηρετούμε",
+
+  "experience.title": "Εμπειρία",
+  "experience.trustin.role": "Μηχανικός λογισμικού",
+  "experience.trustin.years": "2024 – Σήμερα",
+  "experience.trustin.note": "Χτίζω ασφαλή ψηφιακά προϊόντα escrow με React και Tailwind: παρακολούθηση συναλλαγών σε πραγματικό χρόνο, ενσωματώσεις API και responsive UI.",
+  "experience.headrun.role": "Μηχανικός λογισμικού (Associate)",
+  "experience.headrun.years": "2022 – 2024",
+  "experience.headrun.note": "Δημιούργησα responsive διεπαφές συμβατές με όλους τους browsers σε HTML, CSS και JavaScript, με βάση σχέδια σχεδίασης.",
+
+  "education.title": "Εκπαίδευση",
+  "education.mca.degree": "MCA, Εφαρμογές Πληροφορικής",
+  "education.bsc.degree": "B.Sc, Επιστήμη Υπολογιστών",
+
+  "skills.title": "Βασικό stack",
+  "skills.expert": "Ειδικός",
+  "skills.advanced": "Προχωρημένος",
+
+  "services.title": "Τι κάνω",
+  "services.react.title": "Ανάπτυξη React",
+  "services.react.desc": "Εφαρμογές βασισμένες σε components με καθαρή διαχείριση κατάστασης.",
+  "services.responsive.title": "Responsive σχεδιασμός",
+  "services.responsive.desc": "Διατάξεις mobile-first που δουλεύουν σε κάθε οθόνη.",
+  "services.performance.title": "Απόδοση",
+  "services.performance.desc": "Γρήγορη φόρτωση και ομαλή αλληλεπίδραση.",
+  "services.api.title": "Ενσωμάτωση API",
+  "services.api.desc": "REST API και συγχρονισμός δεδομένων σε πραγματικό χρόνο.",
+
+  "contact.title": "Έχετε ένα έργο; Ας μιλήσουμε.",
+  "contact.email": "Email",
+  "contact.linkedin": "LinkedIn",
+  "contact.location": "Ραζάμ, Άντρα Πραντές, Ινδία",
+
+  "footer.copyright": "© {year} {name}"
+}

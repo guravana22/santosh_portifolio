@@ -1,0 +1,76 @@
+{
+  "nav.top": "Back to top",
+  "nav.work": "Work",
+  "nav.about": "About",
+  "nav.contact": "Contact",
+  "nav.toLight": "Switch to light theme",
+  "nav.toDark": "Switch to dark theme",
+  "nav.language": "Change language",
+
+  "loader.tagline": "Santosh Guravana, front-end engineer",
+
+  "hero.first": "Santosh",
+  "hero.last": "Guravana",
+  "hero.photoLabel": "Santosh Guravana on LinkedIn",
+  "hero.intro": "Front-end engineer at Trustin. I build fast, accessible React interfaces for fintech, legal and industrial teams across the UAE, Qatar and Saudi Arabia.",
+  "hero.ctaPrimary": "Start a project",
+  "hero.ctaSecondary": "See my work",
+  "hero.location": "Rajam, India. It’s {time} here.",
+
+  "statement.text": "I build interfaces for products where trust matters: escrow, legal, healthcare and enterprise software. Fast to load, easy to use, and carefully put together.",
+
+  "work.title": "Selected work",
+  "work.subtitle": "Live client sites I’ve built, from escrow platforms to law firms.",
+  "work.visit": "Visit site",
+  "work.open": "Open",
+  "work.siteAlt": "{title} website",
+
+  "projects.trustinQatar": "Digital escrow platform in Qatar for secure, transparent transactions between businesses and individuals.",
+  "projects.trustin": "Regulated UAE escrow with instant IBAN accounts, multi-party support and real-time fund tracking.",
+  "projects.tTherapy": "Swiss healthcare platform for non-invasive pain relief, with clinical pages and a partner network.",
+  "projects.fahad": "Corporate legal services site for a Saudi law firm, including an AI-integrated client portal.",
+  "projects.erpforce": "AI-powered ERP for finance, HRMS, inventory, sales and manufacturing across the Middle East.",
+  "projects.aaks": "Gas and steam turbine maintenance, repair and lifecycle support across the GCC.",
+
+  "more.title": "Also built",
+  "marquee.label": "Technologies I work with",
+
+  "about.title": "About",
+  "about.intro": "Three years of building production front-ends: from regulated escrow flows to multilingual legal sites. I care about the details people only notice when they’re missing.",
+  "stats.years": "years of experience",
+  "stats.sites": "sites shipped",
+  "stats.countries": "countries served",
+
+  "experience.title": "Experience",
+  "experience.trustin.role": "Software Engineer",
+  "experience.trustin.years": "2024 – Present",
+  "experience.trustin.note": "Building secure digital escrow products in React and Tailwind: real-time transaction tracking, API integrations and responsive UI.",
+  "experience.headrun.role": "Associate Software Engineer",
+  "experience.headrun.years": "2022 – 2024",
+  "experience.headrun.note": "Built responsive, cross-browser interfaces in HTML, CSS and JavaScript from design concepts.",
+
+  "education.title": "Education",
+  "education.mca.degree": "MCA, Computer Applications",
+  "education.bsc.degree": "B.Sc, Computer Science",
+
+  "skills.title": "Core stack",
+  "skills.expert": "Expert",
+  "skills.advanced": "Advanced",
+
+  "services.title": "What I do",
+  "services.react.title": "React development",
+  "services.react.desc": "Component-based apps with clean state management.",
+  "services.responsive.title": "Responsive design",
+  "services.responsive.desc": "Mobile-first layouts that hold up on every screen.",
+  "services.performance.title": "Performance",
+  "services.performance.desc": "Fast loads and smooth interaction.",
+  "services.api.title": "API integration",
+  "services.api.desc": "REST APIs and real-time data sync.",
+
+  "contact.title": "Got a project? Let’s talk.",
+  "contact.email": "Email",
+  "contact.linkedin": "LinkedIn",
+  "contact.location": "Rajam, Andhra Pradesh, India",
+
+  "footer.copyright": "© {year} {name}"
+}
