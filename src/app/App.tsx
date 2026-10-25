@@ -1,1488 +1,797 @@
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowUpRight, Linkedin, Mail, MapPin, Moon, Sun } from 'lucide-react';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+
 import tTherapy from '../app/assets/t-therapy.png';
 import erpforce from '../app/assets/erpforce.png';
 import weforce from '../app/assets/weforce.png';
 import fat from '../app/assets/fat.png';
-import fatlanding from "../app/assets/fat_landing.png"
+import fatlanding from '../app/assets/fat_landing.png';
 import quantasec from '../app/assets/quantasec.png';
 import retrofit from '../app/assets/retrofit.png';
-import trustin from "../app/assets/trustin.png";
+import trustin from '../app/assets/trustin.png';
 import yaswash from '../app/assets/yaswash.png';
-import ondemandlabs from "../app/assets/ondemandlabs.png";
-import react from "../app/assets/react.png";
-import nodejs from "../app/assets/nodejs.png";
-import tailwind from "../app/assets/tailwind.png";
-import aaks from "../app/assets/aaks.png";
-import profile from "../app/assets/profile_pic.png";
+import ondemandlabs from '../app/assets/ondemandlabs.png';
+import react from '../app/assets/react.png';
+import nodejs from '../app/assets/nodejs.png';
+import tailwind from '../app/assets/tailwind.png';
+import aaks from '../app/assets/aaks.png';
+import profile from '../app/assets/profile_pic.png';
+import trustinQatar from '../app/assets/trustin_qatar.png';
 
-import { Linkedin, Mail, MapPin } from "lucide-react";
+gsap.registerPlugin(ScrollTrigger);
 
+/* ------------------------------------------------------------------ */
+/* Tokens: dark-first, lilac accent                                    */
+/* ------------------------------------------------------------------ */
+const THEMES: Record<'dark' | 'light', Record<string, string>> = {
+  dark: {
+    '--bg': '#0D0C12',
+    '--raise': '#16141D',
+    '--fg': '#F2EEE6',
+    '--muted': '#9A95A6',
+    '--line': 'rgba(242,238,230,0.13)',
+    '--accent': '#B9A7FF',
+    '--on-accent': '#14102A',
+  },
+  light: {
+    '--bg': '#F4F2F8',
+    '--raise': '#FFFFFF',
+    '--fg': '#14121C',
+    '--muted': '#625D70',
+    '--line': 'rgba(20,18,28,0.14)',
+    '--accent': '#5B3FE0',
+    '--on-accent': '#FFFFFF',
+  },
+};
 
+// Anybody is a variable font with a width axis (wdth 50–150): the kinetic type effects animate it.
+const DISPLAY = "'Anybody', 'Arial Narrow', Arial, sans-serif";
+const BODY = "'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif";
+const wdth = (w: number) => `'wdth' ${w}`;
+const wrap = 'mx-auto w-full max-w-[1280px] px-5 sm:px-8 md:px-10';
 
+/* ------------------------------------------------------------------ */
+/* Content                                                             */
+/* ------------------------------------------------------------------ */
+const email = 'guravana22@gmail.com';
+const linkedin = 'https://www.linkedin.com/in/santosh-guravana-8a8a5828b/';
 
+type Project = { image: string; title: string; tag: string; link: string; description: string };
+
+const featured: Project[] = [
+  { image: trustinQatar, title: 'TrustIn Qatar', tag: 'React, react-intl', link: 'https://trustin.qa/', description: 'Digital escrow platform in Qatar for secure, transparent transactions between businesses and individuals.' },
+  { image: trustin, title: 'Trustin', tag: 'Webflow', link: 'https://www.trustin.ae/', description: 'Regulated UAE escrow with instant IBAN accounts, multi-party support and real-time fund tracking.' },
+  { image: tTherapy, title: 'T-Therapy', tag: 'React, Motion, react-intl', link: 'https://t-therapyswiss.com/', description: 'Swiss healthcare platform for non-invasive pain relief, with clinical pages and a partner network.' },
+  { image: fat, title: 'Fahad Al Tamimi Law Firm', tag: 'React, Motion', link: 'https://www.tamimilawfirm.com/', description: 'Corporate legal services site for a Saudi law firm, including an AI-integrated client portal.' },
+  { image: erpforce, title: 'ERPForce', tag: 'Next.js, next-intl', link: 'https://erpforce.ai/', description: 'AI-powered ERP for finance, HRMS, inventory, sales and manufacturing across the Middle East.' },
+  { image: aaks, title: 'AAKS & BROS Turbo Machinery', tag: 'React, Motion', link: 'https://abturbomachinery.com/', description: 'Gas and steam turbine maintenance, repair and lifecycle support across the GCC.' },
+];
+
+const more: Project[] = [
+  { image: fatlanding, title: 'Al-Tamimi Law Firm: Landing Page', tag: 'React, Motion', link: 'https://www.tamimilawfirm.com/welcome', description: '' },
+  { image: yaswash, title: 'YasWash', tag: 'React', link: 'https://yaswash.com/', description: '' },
+  { image: ondemandlabs, title: 'Ondemandlabs', tag: 'React', link: 'https://ondemandlabs.com/', description: '' },
+  { image: weforce, title: 'WEForce', tag: 'Next.js', link: 'https://weforce.co/', description: '' },
+  { image: quantasec, title: 'QuantaSec', tag: 'HTML, JavaScript', link: 'https://www.quantasec.ae/', description: '' },
+  { image: retrofit, title: 'Retrofit Turbine Parts Trading', tag: 'HTML, JavaScript', link: 'https://www.retrofitturbineparts.com/', description: '' },
+];
+
+const skills = [
+  { icon: react, name: 'React.js', level: 'Expert', pct: 95 },
+  { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/960px-Typescript_logo_2020.svg.png', name: 'TypeScript', level: 'Advanced', pct: 80 },
+  { icon: tailwind, name: 'Tailwind CSS', level: 'Expert', pct: 95 },
+  { icon: nodejs, name: 'Node.js', level: 'Advanced', pct: 75 },
+];
+
+const services = [
+  ['React development', 'Component-based apps with clean state management.'],
+  ['Responsive design', 'Mobile-first layouts that hold up on every screen.'],
+  ['Performance', 'Fast loads and smooth interaction.'],
+  ['API integration', 'REST APIs and real-time data sync.'],
+];
+
+const stats = [
+  { value: 3, suffix: '+', label: 'years of experience' },
+  { value: 12, suffix: '', label: 'sites shipped' },
+  { value: 4, suffix: '', label: 'countries served' },
+];
+
+const experience = [
+  { role: 'Software Engineer', company: 'Trustin', years: '2024 – Present', link: 'https://www.trustin.ae/', note: 'Building secure digital escrow products in React and Tailwind: real-time transaction tracking, API integrations and responsive UI.' },
+  { role: 'Associate Software Engineer', company: 'Headrun Technologies', years: '2022 – 2024', link: 'https://headrun.com/', note: 'Built responsive, cross-browser interfaces in HTML, CSS and JavaScript from design concepts.' },
+];
+
+const education = [
+  { degree: 'MCA, Computer Applications', school: 'Dr. B.R. Ambedkar University', years: '2018 – 2020' },
+  { degree: 'B.Sc, Computer Science', school: 'Sri G.C.S.R Degree College', years: '2014 – 2017' },
+];
+
+const tech = ['React', 'TypeScript', 'JavaScript', 'Next.js', 'Tailwind CSS', 'Bootstrap', 'Node.js', 'Strapi', 'Webflow', 'Figma', 'Motion', 'Vite', 'Git', 'SEO'];
+
+const statement =
+  'I build interfaces for products where trust matters: escrow, legal, healthcare and enterprise software. Fast to load, easy to use, and carefully put together.';
+
+/* ------------------------------------------------------------------ */
+/* Helpers                                                             */
+/* ------------------------------------------------------------------ */
+function HeroRow({ children }: { children: ReactNode }) {
+  return (
+    <span data-hero-row className="block">
+      <span className="block overflow-hidden pb-[0.06em]">
+        <span data-hero-line className="block">{children}</span>
+      </span>
+    </span>
+  );
+}
+
+function Heading({ children }: { children: ReactNode }) {
+  return (
+    <h2
+      data-heading
+      className="overflow-hidden pb-[0.1em] text-[clamp(2.4rem,7vw,5rem)] font-bold leading-[1] tracking-[-0.02em]"
+      style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+    >
+      <span className="block">{children}</span>
+    </h2>
+  );
+}
+
+function Words({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(' ').map((w, i) => (
+        <span key={i} data-word className="mr-[0.25em] inline-block">{w}</span>
+      ))}
+    </>
+  );
+}
+
+function useClock() {
+  const fmt = () =>
+    new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }).format(new Date());
+  const [time, setTime] = useState(fmt);
+  useEffect(() => {
+    const id = setInterval(() => setTime(fmt()), 20000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
+}
+
+/* ------------------------------------------------------------------ */
+/* App                                                                 */
+/* ------------------------------------------------------------------ */
 export default function App() {
-  // const heroRef = useRef(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showDesktopToggle, setShowDesktopToggle] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    // target: heroRef,
-    offset: ["start start", "end start"]
-  });
-
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const rootRef = useRef<HTMLDivElement>(null);
+  const time = useClock();
   const isDark = theme === 'dark';
 
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
 
-  useEffect(() => {
-  const handleScroll = () => {
-    if (window.scrollY > 180) {
-      setShowDesktopToggle(true);
-    } else {
-      setShowDesktopToggle(false);
-    }
-  };
+    const mm = gsap.matchMedia();
+    const q = gsap.utils.selector(root);
+    const setWidth = (els: Element[], w: number) =>
+      els.forEach((el) => ((el as HTMLElement).style.fontVariationSettings = wdth(w)));
 
-  window.addEventListener('scroll', handleScroll);
-  return () => window.removeEventListener('scroll', handleScroll);
-}, []);
+    // Reduced motion: no loader, everything static
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set(q('[data-loader]'), { display: 'none' });
+    });
 
+    // Cursor label over project cards (mouse devices only)
+    mm.add('(hover: hover) and (pointer: fine)', () => {
+      const cur = q('[data-cursor]')[0] as HTMLElement;
+      if (!cur) return;
+      gsap.set(cur, { scale: 0 });
+      const qx = gsap.quickTo(cur, 'x', { duration: 0.4, ease: 'power3' });
+      const qy = gsap.quickTo(cur, 'y', { duration: 0.4, ease: 'power3' });
+      let active = false;
+      const onMove = (e: MouseEvent) => {
+        qx(e.clientX);
+        qy(e.clientY);
+        const over = !!(e.target as Element).closest('[data-cursor-open]');
+        if (over !== active) {
+          active = over;
+          gsap.to(cur, { scale: over ? 1 : 0, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
+        }
+      };
+      window.addEventListener('mousemove', onMove);
+      return () => window.removeEventListener('mousemove', onMove);
+    });
 
-  const navLinks = [
-    // { name: 'Home', href: '#' },
-    { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' }
-  ];
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const html = document.documentElement;
+      html.style.overflow = 'hidden'; // lock scroll while the loader runs
+
+      const heroTitles = q('[data-hero-line]');
+      setWidth(heroTitles, 40);
+
+      /* ---------- Preloader → hero intro ---------- */
+      const counter = { v: 0 };
+      const num = q('[data-loader-num]')[0];
+      const heroW = { w: 40 };
+
+      gsap
+        .timeline({
+          onComplete: () => {
+            html.style.overflow = '';
+            ScrollTrigger.refresh();
+          },
+        })
+        .to(counter, {
+          v: 100,
+          duration: 1.5,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            num.textContent = String(Math.round(counter.v));
+          },
+        })
+        .to(q('[data-loader-inner]'), { opacity: 0, y: -30, duration: 0.4, ease: 'power2.in' })
+        .to(q('[data-loader]'), { yPercent: -100, duration: 1, ease: 'expo.inOut' })
+        .from(q('[data-hero-line]'), { yPercent: 115, duration: 1.2, ease: 'expo.out', stagger: 0.12 }, '-=0.45')
+        .to(
+          heroW,
+          { w: 100, duration: 1.6, ease: 'expo.out', onUpdate: () => setWidth(heroTitles, heroW.w) },
+          '<',
+        )
+        .from(q('[data-hero-photo]'), { scale: 0.6, opacity: 0, rotate: -8, duration: 1, ease: 'back.out(1.5)' }, '-=1.1')
+        .from(q('[data-hero-sub]'), { y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.1 }, '-=1');
+
+      /* ---------- Scroll progress + nav ---------- */
+      gsap.fromTo(
+        q('[data-progress]'),
+        { scaleX: 0 },
+        { scaleX: 1, ease: 'none', scrollTrigger: { trigger: html, start: 'top top', end: 'bottom bottom', scrub: 0.3 } },
+      );
+
+      const nav = q('[data-nav]')[0];
+      let navHidden = false;
+      ScrollTrigger.create({
+        start: 0,
+        end: 'max',
+        onUpdate: (self) => {
+          const hide = self.direction === 1 && self.scroll() > 200;
+          if (hide === navHidden) return;
+          navHidden = hide;
+          gsap.to(nav, { yPercent: hide ? -160 : 0, duration: 0.45, ease: 'power3.out' });
+        },
+      });
+
+      /* ---------- Hero: lines drift apart on scroll ---------- */
+      const rows = q('[data-hero-row]');
+      gsap.to(rows[0], { xPercent: -6, ease: 'none', scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to(rows[1], { xPercent: 6, ease: 'none', scrollTrigger: { trigger: '#top', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to(q('[data-hero-bottom]'), {
+        opacity: 0,
+        y: -30,
+        ease: 'none',
+        scrollTrigger: { trigger: '#top', start: '60% top', end: 'bottom top', scrub: true },
+      });
+
+      /* ---------- Statement: words light up with scroll ---------- */
+      gsap.fromTo(
+        q('[data-word]'),
+        { opacity: 0.18 },
+        {
+          opacity: 1,
+          ease: 'none',
+          stagger: 0.1,
+          scrollTrigger: { trigger: '[data-statement]', start: 'top 78%', end: 'bottom 55%', scrub: true },
+        },
+      );
+
+      /* ---------- Section headings ---------- */
+      q('[data-heading]').forEach((el) => {
+        gsap.from(el.firstElementChild, {
+          yPercent: 115,
+          duration: 1.1,
+          ease: 'expo.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+        });
+      });
+
+      /* ---------- Stacking project cards ---------- */
+      const wraps = q('[data-stack-wrap]');
+      wraps.forEach((w, i) => {
+        const card = w.querySelector('[data-stack-card]');
+        const img = w.querySelector('[data-stack-img]');
+        const next = wraps[i + 1];
+
+        // Image settles as the card arrives
+        gsap.fromTo(
+          img,
+          { scale: 1.18 },
+          { scale: 1, ease: 'none', scrollTrigger: { trigger: w, start: 'top bottom', end: 'top 25%', scrub: true } },
+        );
+
+        // Card recedes while the next one slides over it
+        if (next) {
+          gsap.to(card, {
+            scale: 0.93,
+            filter: 'brightness(0.5)',
+            ease: 'none',
+            scrollTrigger: { trigger: next, start: 'top 90%', end: 'top 22%', scrub: true },
+          });
+        }
+      });
+
+      /* ---------- Fade-ups, rows, stats ---------- */
+      const fades = q('[data-fade]');
+      gsap.set(fades, { opacity: 0, y: 28 });
+      ScrollTrigger.batch(fades, {
+        start: 'top 90%',
+        once: true,
+        onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, overwrite: true }),
+      });
+
+      const listRows = q('[data-row]');
+      gsap.set(listRows, { opacity: 0, y: 36 });
+      ScrollTrigger.batch(listRows, {
+        start: 'top 92%',
+        once: true,
+        onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true }),
+      });
+
+      q('[data-count]').forEach((node) => {
+        const el = node as HTMLElement;
+        const target = Number(el.dataset.count);
+        const suffix = el.dataset.suffix ?? '';
+        const state = { v: 0 };
+        el.textContent = `0${suffix}`;
+        gsap.to(state, {
+          v: target,
+          duration: 1.6,
+          ease: 'power2.out',
+          snap: { v: 1 },
+          onUpdate: () => (el.textContent = `${state.v}${suffix}`),
+          scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+        });
+      });
+
+      gsap.fromTo(
+        q('[data-bar]'),
+        { scaleX: 0 },
+        { scaleX: 1, duration: 1.3, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: '[data-skills]', start: 'top 85%', once: true } },
+      );
+
+      /* ---------- Marquee: speed and direction follow scroll ---------- */
+      const track = q('[data-marquee-track]')[0];
+      const loop = gsap.to(track, { xPercent: -50, ease: 'none', duration: 45, repeat: -1 });
+      ScrollTrigger.create({
+        start: 0,
+        end: 'max',
+        onUpdate: (self) => {
+          const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 400, 5);
+          gsap.to(loop, {
+            timeScale: boost * self.direction,
+            duration: 0.25,
+            overwrite: true,
+            onComplete: () => {
+              gsap.to(loop, { timeScale: self.direction, duration: 1.2, ease: 'power2.out' });
+            },
+          });
+        },
+      });
+
+      /* ---------- Contact panel + wordmark ---------- */
+      gsap.fromTo(
+        q('[data-panel]'),
+        { scale: 0.9, borderRadius: 72 },
+        { scale: 1, borderRadius: 40, ease: 'none', scrollTrigger: { trigger: '[data-panel]', start: 'top bottom', end: 'top 35%', scrub: true } },
+      );
+
+      const mark = q('[data-wordmark]');
+      const markW = { w: 50 };
+      gsap.to(markW, {
+        w: 100,
+        ease: 'none',
+        onUpdate: () => setWidth(mark, markW.w),
+        scrollTrigger: { trigger: '[data-footer]', start: 'top bottom', end: 'bottom bottom', scrub: true },
+      });
+
+      return () => {
+        html.style.overflow = '';
+      };
+    });
+
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    return () => mm.revert();
+  }, []);
+
+  const navLinks = [['Work', '#work'], ['About', '#about'], ['Contact', '#contact']];
 
   return (
-    <div className={`min-h-screen overflow-x-hidden transition-colors duration-500 ${isDark ? 'bg-[#0a0a0a]' : 'bg-[#f8f8f9]'}`}>
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-colors duration-500 ${isDark ? 'bg-[#0a0a0a]/80 border-b border-white/5' : 'bg-[#f8f8f9]/80 border-b border-black/5'}`}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 lg:h-20">
-            {/* Logo */}
-         
-         <a href="#">
-  <div
-    className={`font-['Cormorant_Garamond'] tracking-wide transition-colors duration-300 ${
-      isDark ? 'text-white' : 'text-[#1a1a1a]'
-    }`}
-    style={{
-      fontStyle: 'italic',
-      letterSpacing: '2.5px',
-      fontSize: '29px',
-      fontWeight: 800,
-    }}
-  >
-    Santosh.
-  </div>
-</a>
+    <div
+      ref={rootRef}
+      style={{ ...(THEMES[theme] as CSSProperties), fontFamily: BODY }}
+      className="min-h-screen overflow-x-clip bg-[var(--bg)] text-[var(--fg)] transition-colors duration-500"
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Hanken+Grotesk:wght@400;500;600&display=swap');
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+        a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+        .outline-text { color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+        .grain { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+      `}</style>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6 lg:gap-8">
-              <div className="flex gap-6 lg:gap-10 font-['Outfit'] text-[13px] lg:text-[14px] tracking-wide">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className={`transition-colors duration-300 ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-black'}`}
-                  >
-                    {link.name}
-                  </a>
-                ))}
-              </div>
+      {/* Grain overlay */}
+      <div aria-hidden className="grain pointer-events-none fixed inset-0 z-[70] opacity-[0.05]" />
 
-              {/* Desktop Theme Toggle */}
-             {showDesktopToggle && (
-  <motion.button
-    onClick={toggleTheme}
-    initial={{ opacity: 0, y: -10 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    className={`p-2 rounded-full transition-all duration-300 cursor-pointer mobile-theme ${
-      isDark
-        ? 'bg-white/10 hover:bg-white/20 border border-white/20'
-        : 'bg-black/5 hover:bg-black/10 border border-black/10'
-    }`}
-    aria-label="Toggle theme"
-  >
-    {isDark ? (
-      <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ) : (
-      <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-      </svg>
-    )}
-  </motion.button>
-)}
-            </div>
-
-            {/* Mobile Menu Button & Theme Toggle */}
-            <div className="flex md:hidden items-center gap-3">
-              {/* Mobile Theme Toggle */}
-              <motion.button
-                onClick={toggleTheme}
-                whileTap={{ scale: 0.95 }}
-                className={`p-2 rounded-full transition-all duration-300 ${
-                  isDark
-                    ? 'bg-white/10 border border-white/20'
-                    : 'bg-black/5 border border-black/10'
-                }`}
-                aria-label="Toggle theme"
-              >
-                {isDark ? (
-                  <svg className="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                )}
-              </motion.button>
-
-              {/* Hamburger Button */}
-              <motion.button
-                onClick={toggleMobileMenu}
-                whileTap={{ scale: 0.95 }}
-                className={`p-2 rounded-lg transition-all duration-300 cursor-pointer ${
-                  isDark
-                    ? 'bg-white/10 hover:bg-white/20 border border-white/20'
-                    : 'bg-black/5 hover:bg-black/10 border border-black/10'
-                }`}
-                aria-label="Toggle menu"
-              >
-                {mobileMenuOpen ? (
-                  <svg className={`w-6 h-6 ${isDark ? 'text-white' : 'text-[#1a1a1a]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  <svg className={`w-6 h-6 ${isDark ? 'text-white' : 'text-[#1a1a1a]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
-              </motion.button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <motion.div
-          initial={false}
-          animate={{
-            height: mobileMenuOpen ? 'auto' : 0,
-            opacity: mobileMenuOpen ? 1 : 0
-          }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className={`md:hidden overflow-hidden ${
-            isDark ? 'border-t border-white/5' : 'border-t border-black/5'
-          }`}
-        >
-          <div className="px-4 py-6 space-y-4">
-            {navLinks.map((link, index) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{
-                  opacity: mobileMenuOpen ? 1 : 0,
-                  x: mobileMenuOpen ? 0 : -20
-                }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                onClick={(e) => {
-                e.preventDefault(); // stop default jump
-
-                const target = document.querySelector(link.href);
-
-                setMobileMenuOpen(false); // close menu first
-
-                setTimeout(() => {
-                  if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }, 300); // match your animation duration
-              }}
-                // onClick={() => setMobileMenuOpen(false)}
-                className={`block py-3 px-4 rounded-xl font-['Outfit'] text-[15px] tracking-wide transition-all duration-300 ${
-                  isDark
-                    ? 'text-gray-300 hover:text-white hover:bg-white/10'
-                    : 'text-gray-600 hover:text-black hover:bg-black/5'
-                }`}
-              >
-                {link.name}
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
-      </nav>
-
-      {/* Hero Section */}
-     
-      {/* Hero Section */}
-      <section 
-      // ref={heroRef} 
-      className="pt-32 pb-20 px-8 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Gradient Overlay */}
-          <div className={`absolute inset-0 transition-colors duration-500 ${
-            isDark
-              ? 'bg-gradient-to-b from-[#0f0f0f] via-[#0a0a0a] to-[#0a0a0a]'
-              : 'bg-gradient-to-b from-[#fafafa] via-[#f8f8f9] to-[#f8f8f9]'
-          }`}></div>
-
-          {/* Dot Pattern */}
-          <motion.div
-            style={{ y: useTransform(scrollYProgress, [0, 1], ["0%", "20%"]) }}
-            className={`absolute inset-0 transition-opacity duration-500 ${isDark ? 'opacity-[0.08]' : 'opacity-[0.15]'}`}
+      {/* Preloader */}
+      <div data-loader className="fixed inset-0 z-[100] bg-[var(--bg)]">
+        <div data-loader-inner className="flex h-full flex-col justify-between p-6 sm:p-10">
+          <span className="text-[15px] text-[var(--muted)]">Santosh Guravana, front-end engineer</span>
+          <span
+            data-loader-num
+            className="self-end text-[clamp(6rem,26vw,20rem)] font-bold leading-[0.8] text-[var(--accent)]"
+            style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
           >
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: isDark
-                  ? 'radial-gradient(circle, #ffffff 1px, transparent 1px)'
-                  : 'radial-gradient(circle, #d0d0d0 1px, transparent 1px)',
-                backgroundSize: '32px 32px',
-              }}
-            ></div>
-          </motion.div>
-
-          {/* Abstract Shapes - Accent Glow */}
-          <motion.div
-            style={{
-              y: useTransform(scrollYProgress, [0, 1], ["0%", "15%"]),
-              opacity: useTransform(scrollYProgress, [0, 0.5], isDark ? [0.3, 0] : [0.4, 0])
-            }}
-            className={`absolute top-20 left-[10%] w-[500px] h-[500px] rounded-full blur-3xl transition-colors duration-500 ${
-              isDark
-                ? 'bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-transparent'
-                : 'bg-gradient-to-br from-[#e8e8ea]/30 to-transparent'
-            }`}
-          ></motion.div>
-
-          <motion.div
-            style={{
-              y: useTransform(scrollYProgress, [0, 1], ["0%", "25%"]),
-              opacity: useTransform(scrollYProgress, [0, 0.5], isDark ? [0.25, 0] : [0.3, 0])
-            }}
-            className={`absolute top-40 right-[15%] w-[400px] h-[400px] rounded-full blur-3xl transition-colors duration-500 ${
-              isDark
-                ? 'bg-gradient-to-br from-purple-500/15 via-blue-500/10 to-transparent'
-                : 'bg-gradient-to-br from-[#d8d8da]/20 to-transparent'
-            }`}
-          ></motion.div>
-        </div>
-
-        {/* Lamp Toggle - Right Side */}
-        <LampToggle isDark={isDark} onToggle={toggleTheme} scrollYProgress={scrollYProgress} />
-
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="max-w-[900px] mx-auto text-center relative z-10"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-            className="mb-10 inline-block relative group"
-          >
-            <div className={`absolute inset-0 rounded-full blur-2xl opacity-60 group-hover:opacity-80 transition-all duration-700 ${
-              isDark
-                ? 'bg-gradient-to-br from-blue-500/30 to-purple-500/30'
-                : 'bg-gradient-to-br from-[#e8e8ea] to-[#f5f5f6]'
-            }`}></div>
-           
-           <motion.a
-  href="https://www.linkedin.com/in/santosh-guravana-8a8a5828b/"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="relative inline-block group cursor-pointer"
-  whileHover={{ scale: 1.05 }}
->
-  {/* Image Wrapper */}
-  <div className="relative w-[140px] h-[140px] rounded-full overflow-hidden">
-    
-    {/* Image */}
-    <ImageWithFallback
-      src={profile}
-      alt="Profile"
-      className={`w-full h-full object-cover transition-all duration-500 ${
-        isDark
-          ? "shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]"
-          : "shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)]"
-      }`}
-    />
-
-    {/* Overlay (FIXED) */}
-    <div className="absolute inset-0 z-20 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-      <Linkedin
-        size={30}
-        className="text-white transform scale-75 group-hover:scale-100 transition-all duration-300"
-      />
-    </div>
-
-    {/* Ring (separate layer) */}
-    <div className={`absolute inset-0 rounded-full ring-4 pointer-events-none ${
-      isDark ? "ring-white/10" : "ring-white/50"
-    }`} />
-  </div>
-</motion.a>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-            className={`font-['Cormorant_Garamond'] text-[56px] md:text-[68px] leading-[1.1] tracking-tight mb-5 transition-colors duration-300 ${
-              isDark ? 'text-white' : 'text-[#1a1a1a]'
-            }`}
-            style={{ fontWeight: 400 }}
-          >
-            Building digital products,<br />brands, and experience
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.19, 1, 0.22, 1] }}
-            className={`font-['Outfit'] text-[15px] mb-10 max-w-[600px] mx-auto leading-relaxed tracking-wide transition-colors duration-300 ${
-              isDark ? 'text-gray-400' : 'text-[#5a5a5a]'
-            }`}
-          >
-            Crafting meaningful digital experiences that connect people with purpose through thoughtful design and development
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.19, 1, 0.22, 1] }}
-            className="flex gap-4 justify-center flex-wrap"
-          >
-            <motion.a
-            href='#contact'
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-full font-['Outfit'] text-[13px] tracking-widest uppercase hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.5)] hover:shadow-[0_15px_40px_-10px_rgba(99,102,241,0.6)]"
-              style={{ fontWeight: 500 }}
-            >
-              Get in Touch
-            </motion.a>
-            <motion.a
-            href='#projects'
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className={`px-10 py-4 rounded-full font-['Outfit'] text-[13px] tracking-widest uppercase transition-all duration-300 border-2 ${
-                isDark
-                  ? 'bg-transparent text-gray-300 hover:bg-white/5 border-white/20 hover:border-white/40'
-                  : 'bg-transparent text-[#1a1a1a] hover:bg-white/60 border-[#1a1a1a]/20 hover:border-[#1a1a1a]/40'
-              }`}
-              style={{ fontWeight: 500 }}
-            >
-              View Work
-            </motion.a>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 1.2, duration: 0.6 }}
-  className="flex flex-col items-center gap-2"
->
-  <div
-    className={`font-['Outfit'] text-[10px] tracking-[3px] uppercase ${
-      isDark ? "text-gray-500" : "text-gray-400"
-    }`}
-  >
-    Scroll Down
-  </div>
-  <div
-    className={`w-[22px] h-[36px] rounded-full border flex justify-center items-start p-1 ${
-      isDark ? "border-white/20" : "border-black/20"
-    }`}
-  >
-    <motion.div
-      animate={{ y: [0, 10, 0] }}
-      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-      className={`w-[4px] h-[4px] rounded-full ${
-        isDark ? "bg-white" : "bg-black"
-      }`}
-    />
-  </div>
-</motion.div> */}
-
-      {/* About Me Section - Redesigned */}
-      <section className="py-20 px-8" id='about'>
-        <div className="max-w-[1200px] mx-auto">
-          <FadeInSection>
-          <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
-              {/* Left: Content */}
-              <div>
-                <div className={`inline-block px-5 py-2 rounded-full backdrop-blur-sm mb-6 font-['Outfit'] text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
-                  isDark ? 'bg-white/5 text-gray-400' : 'bg-white/40 text-[#6a6a6a]'
-                }`} style={{ fontWeight: 500 }}>
-                  About Me
-                </div>
-                <h2 className={`font-['Cormorant_Garamond'] text-[48px] leading-[1.15] tracking-tight mb-6 transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-[#1a1a1a]'
-                }`} style={{ fontWeight: 500 }}>
-                  Software Engineer<br />Building Digital<br />Experiences
-                </h2>
-                <p className={`font-['Outfit'] text-[15px] leading-[1.8] mb-5 transition-colors duration-300 ${
-                  isDark ? 'text-gray-300' : 'text-[#5a5a5a]'
-                }`}>
-                  Currently working at <span className={isDark ? 'text-blue-400' : 'text-[#2a2a2a]'} style={{ fontWeight: 600 }}>Trustin</span>, specializing in building modern, responsive web applications using <span className={isDark ? 'text-blue-400' : 'text-[#2a2a2a]'} style={{ fontWeight: 600 }}>React.js</span>, <span className={isDark ? 'text-blue-400' : 'text-[#2a2a2a]'} style={{ fontWeight: 600 }}>JavaScript</span>, and modern CSS to create seamless digital experiences.
-                </p>
-                <p className={`font-['Outfit'] text-[15px] leading-[1.8] mb-6 transition-colors duration-300 ${
-                  isDark ? 'text-gray-300' : 'text-[#5a5a5a]'
-                }`}>
-                  Passionate about <span className={isDark ? 'text-blue-400' : 'text-[#2a2a2a]'} style={{ fontWeight: 600 }}>performance optimization</span>, <span className={isDark ? 'text-blue-400' : 'text-[#2a2a2a]'} style={{ fontWeight: 600 }}>API integration</span>, and creating intuitive user interfaces that solve real problems.
-                </p>
-
-                {/* Stats */}
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8">
-                  {[
-                    { value: "3+", label: "Years Exp" },
-                    { value: "5+", label: "Projects" },
-                    { value: "100%", label: "Committed" }
-                  ].map((stat, idx) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1, duration: 0.5 }}
-                      className={`text-center p-4 rounded-2xl transition-all duration-500 ${
-                        isDark ? 'bg-white/5 border border-white/10' : 'bg-white/60 border border-white/40'
-                      }`}
-                    >
-                      <div className={`font-['Cormorant_Garamond'] text-[32px] transition-colors duration-300 ${
-                        isDark ? 'text-white' : 'text-[#1a1a1a]'
-                      }`} style={{ fontWeight: 600 }}>{stat.value}</div>
-                      <div className={`font-['Outfit'] text-[12px] uppercase tracking-wider transition-colors duration-300 ${
-                        isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-                      }`}>{stat.label}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right: Skills/Info Cards */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="grid grid-cols-2 md:grid-cols-2 gap-4 sm:gap-5"
-              >
-                {[
-                  { icon: react, title: "React.js", level: "Expert" },
-                  { icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/960px-Typescript_logo_2020.svg.png', title: "TypeScript", level: "Advanced" },
-                  { icon: tailwind, title: "Tailwind", level: "Expert" },
-                  { icon: nodejs, title: "Node.js", level: "Advanced" }
-                ].map((skill, idx) => (
-                  <motion.div
-                    key={skill.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1, duration: 0.5 }}
-                    className={`p-6 rounded-2xl transition-all duration-500 hover:scale-105 ${
-                      isDark
-                        ? 'bg-white/5 border border-white/10 hover:bg-white/10'
-                        : 'bg-white/60 border border-white/40 hover:bg-white'
-                    }`}
-                  >
-                    <div className="text-[28px] mb-3"><img src={skill.icon} alt='icon' style={{height:'auto',width:'30px',objectFit:'contain'}}></img></div>
-                    <div className={`font-['Outfit'] text-[16px] mb-1 transition-colors duration-300 ${
-                      isDark ? 'text-white' : 'text-[#1a1a1a]'
-                    }`} style={{ fontWeight: 600 }}>{skill.title}</div>
-                    <div className={`font-['Outfit'] text-[12px] uppercase tracking-wide transition-colors duration-300 ${
-                      isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-                    }`}>{skill.level}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </FadeInSection>
-        </div>
-      </section>
-
-      {/* Services / What I Do Section - Redesigned */}
-      <section className="py-12 px-8">
-        <div className="max-w-[1300px] mx-auto">
-          <FadeInSection>
-            <div className="text-center mb-12">
-              <h2 className={`font-['Cormorant_Garamond'] text-[42px] leading-[1.2] tracking-tight mb-4 transition-colors duration-300 ${
-                isDark ? 'text-white' : 'text-[#1a1a1a]'
-              }`} style={{ fontWeight: 500 }}>
-                What I Do
-              </h2>
-              <p className={`font-['Outfit'] text-[15px] max-w-[600px] mx-auto transition-colors duration-300 ${
-                isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-              }`}>
-                Specialized in front-end development with a focus on modern web technologies
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-              {[
-                { icon: react, title: "React Development", description: "Building component-based applications with React.js and modern state management" },
-                { icon: "https://cdn-icons-png.flaticon.com/512/2504/2504196.png", title: "Responsive Design", description: "Creating mobile-first interfaces that work seamlessly across all devices" },
-                { icon: "https://cdn-icons-png.flaticon.com/512/18224/18224749.png", title: "Performance", description: "Optimizing applications for speed and efficiency using best practices" },
-                { icon: "https://cdn-icons-png.flaticon.com/512/2620/2620861.png", title: "API Integration", description: "Implementing REST APIs and real-time data synchronization" }
-              ].map((service, index) => (
-                <motion.div
-                  key={service.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-                >
-                  <ServiceCard {...service} isDark={isDark} />
-                </motion.div>
-              ))}
-            </div>
-          </FadeInSection>
-        </div>
-      </section>
-
-      {/* Tech Stack Marquee Section */}
-      <TechStackMarquee isDark={isDark} />
-
-      {/* Experience & Education Combined Section - Timeline Style */}
-      <section className="py-16 px-8">
-        <div className="max-w-[1200px] mx-auto">
-          <FadeInSection>
-            <div className="grid md:grid-cols-2 gap-16">
-              {/* Experience Timeline */}
-              <div>
-                <h2 className={`font-['Cormorant_Garamond'] text-[38px] leading-[1.2] tracking-tight mb-10 transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-[#1a1a1a]'
-                }`} style={{ fontWeight: 500 }}>
-                  Experience
-                </h2>
-                <div className="space-y-8 relative before:absolute before:left-[7px] before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-blue-500/50 before:to-transparent">
-                  {[
-                    { role: "Software Engineer", company: "Trustin", duration: "2024 - Present", description: "Developing scalable and high-performance web applications using React.js and Tailwind CSS. Working on secure digital escrow solutions with real-time transaction tracking, API integrations, and responsive UI/UX improvements. Collaborating with cross-functional teams to deliver reliable and user-friendly financial platforms.",img:"https://cdn.prod.website-files.com/668adad388c167cbff3c0d9e/66fed4c56b19ca1e8d4aa4b4_trustin-favicon-new.png", link :"https://www.trustin.ae/", current: true },
-                    { role: "Associate Software Engineer", company: "Headrun Technologies", duration: "2022-2024", description: "Designed and developed responsive website interfaces with a strong focus on UI/UX. Created modern, visually appealing layouts using HTML, CSS, and JavaScript, ensuring cross-browser compatibility and mobile responsiveness. Collaborated with developers to translate design concepts into user-friendly web experiences.", img:"https://headrun.com/static/images/favicon.png", link : "https://headrun.com/", current: false },
-                    // { role: "Junior Web Developer", company: "Digital Innovations", duration: "2022-2023", description: "Collaborated on responsive website development projects", current: false }
-                  ].map((exp, index) => (
-                    <motion.div
-                      key={exp.role}
-                      initial={{ opacity: 0, x: -30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-                      className="relative pl-8"
-                    >
-                      {/* Timeline dot */}
-                      <div className={`absolute left-0 top-[6px] w-4 h-4 rounded-full border-2 transition-all duration-300 ${
-                        isDark
-                          ? exp.current ? 'bg-blue-500 border-blue-400' : 'bg-white/10 border-white/30'
-                          : exp.current ? 'bg-blue-600 border-blue-500' : 'bg-white/40 border-gray-300'
-                      }`}></div>
-
-                      <div className={`p-5 rounded-2xl transition-all duration-500 ${
-                        isDark ? 'bg-white/5 border border-white/10' : 'bg-white/60 border border-white/40'
-                      }`}>
-                        {exp.current && (
-                          <div className="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-['Outfit'] text-[10px] tracking-widest uppercase mb-2" style={{ fontWeight: 500 }}>
-                            Current
-                          </div>
-                        )}
-                        <h3 className={`font-['Outfit'] text-[18px] mb-1 transition-colors duration-300 ${
-                          isDark ? 'text-white' : 'text-[#1a1a1a]'
-                        }`} style={{ fontWeight: 600 }}>{exp.role}</h3>
-                        <div  className={`font-['Outfit'] text-[14px] mb-2 transition-colors duration-300 flex justify-start items-center gap-1 ${
-                          isDark ? 'text-blue-400' : 'text-[#2a2a2a]'
-                        }`} style={{ fontWeight: 500 }}>
-                          <div className='flex justify-start items-center gap-1'><a className='flex justify-start items-center gap-2' href={exp.link} target='_blank'>{exp.company} <img src={exp.img} alt='logo' style={{height:'auto', width:'25px',objectFit:'contain'}}/></a></div>
-                        </div>
-                        <div className={`font-['Outfit'] text-[12px] mb-3 transition-colors duration-300 ${
-                          isDark ? 'text-gray-500' : 'text-[#8a8a8a]'
-                        }`}>{exp.duration}</div>
-                        <p className={`font-['Outfit'] text-[13px] leading-relaxed transition-colors duration-300 ${
-                          isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-                        }`}>{exp.description}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Education Timeline */}
-              <div>
-                <h2 className={`font-['Cormorant_Garamond'] text-[38px] leading-[1.2] tracking-tight mb-10 transition-colors duration-300 ${
-                  isDark ? 'text-white' : 'text-[#1a1a1a]'
-                }`} style={{ fontWeight: 500 }}>
-                  Education
-                </h2>
-                <div className="space-y-8 relative before:absolute before:left-[7px] before:top-0 before:bottom-0 before:w-[2px] before:bg-gradient-to-b before:from-purple-500/50 before:to-transparent">
-                  {[
-                    { degree: "Master of Computer Applications(MCA)", institution: "Dr.B.R Ambedkar University", year: "2018 - 2020" },
-                    { degree: "B.Sc (Computer Science)" , institution: "Sri G.C.S.R Degree College", year: "2014-2017" },
-                    // { degree: "JavaScript Algorithms", institution: "freeCodeCamp", year: "2022" }
-                  ].map((qual, index) => (
-                    <motion.div
-                      key={qual.degree}
-                      initial={{ opacity: 0, x: -30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-                      className="relative pl-8"
-                    >
-                      {/* Timeline dot */}
-                      <div className={`absolute left-0 top-[6px] w-4 h-4 rounded-full border-2 transition-all duration-300 ${
-                        isDark ? 'bg-white/10 border-white/30' : 'bg-white/40 border-gray-300'
-                      }`}></div>
-
-                      <div className={`p-5 rounded-2xl transition-all duration-500 ${
-                        isDark ? 'bg-white/5 border border-white/10' : 'bg-white/60 border border-white/40'
-                      }`}>
-                        <h3 className={`font-['Outfit'] text-[16px] mb-1 transition-colors duration-300 ${
-                          isDark ? 'text-white' : 'text-[#1a1a1a]'
-                        }`} style={{ fontWeight: 600 }}>{qual.degree}</h3>
-                        <div className={`font-['Outfit'] text-[14px] mb-2 transition-colors duration-300 ${
-                          isDark ? 'text-purple-400' : 'text-[#2a2a2a]'
-                        }`} style={{ fontWeight: 500 }}>{qual.institution}</div>
-                        <div className={`font-['Outfit'] text-[12px] transition-colors duration-300 ${
-                          isDark ? 'text-gray-500' : 'text-[#8a8a8a]'
-                        }`}>{qual.year}</div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </FadeInSection>
-        </div>
-      </section>
-
-      {/* Projects Section - Redesigned */}
-      <section className="py-20 px-8" id='projects'>
-        <div className="max-w-[1400px] mx-auto">
-          <FadeInSection>
-            <div className="text-center mb-14">
-              <div className={`inline-block px-5 py-2 rounded-full backdrop-blur-sm mb-4 font-['Outfit'] text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
-                isDark ? 'bg-white/5 text-gray-400' : 'bg-white/40 text-[#6a6a6a]'
-              }`} style={{ fontWeight: 500 }}>
-                Our Work
-              </div>
-              <h2 className={`font-['Cormorant_Garamond'] text-[46px] leading-[1.2] tracking-tight mb-4 transition-colors duration-300 ${
-                isDark ? 'text-white' : 'text-[#1a1a1a]'
-              }`} style={{ fontWeight: 500 }}>
-                Featured Projects
-              </h2>
-              <p className={`font-['Outfit'] text-[15px] max-w-[600px] mx-auto transition-colors duration-300 ${
-                isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-              }`}>
-                Showcasing recent work and side projects built with modern technologies
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-              {[
-                 { image: trustin, title: "Trustin", description: "Regulated digital escrow platform in the UAE enabling secure, transparent transactions with instant IBAN accounts, multi-party support, and real-time fund tracking for real estate, trade, and high-value deals.", tag: "Webflow" , link :"https://www.trustin.ae/" },
-                { image: tTherapy, title: "T-Therapy", description: "Swiss healthcare platform offering non-invasive pain relief through static magnetic field therapy, featuring clinical applications, certified medical technology, and partner network management.", tag: "React/Motion" , link :"https://t-therapyswiss.com/" },
-                 { image: fat , title: "Fahad AL Tamimi Law Firm",  description: "Corporate legal services platform for a Saudi-based law firm, showcasing expertise in company formation, regulatory compliance, contract management, and AI-integrated client portal for real-time case tracking.",  tag: "React/Motion", link :"https://www.tamimilawfirm.com/" },
-                 {
-  image: aaks,
-  title: "AAKS & BROS Turbo Machinery L.L.C",
-  description: "OEM-quality turbomachinery services specializing in gas and steam turbine maintenance, repair, refurbishment, and lifecycle support for power, oil & gas, and industrial sectors across the GCC region.",
-  tag: "React/Motion",
-  link: "https://abturbomachinery.com/"
-},
-{
-  image: fatlanding,
-  title: "Fahad Al-Tamimi Law Firm — Landing Page",
-  description: "Marketing landing page for a Saudi-based law firm serving foreign investors, covering MISA registration, M&A, dispute resolution, and Vision 2030 compliance, with consultation booking and client testimonials.",
-  tag: "React/Motion",
-  link: "https://www.tamimilawfirm.com/welcome"
-},
-                                 { image: yaswash, title: "YasWash", description: "Premium doorstep car wash platform in the UAE offering eco-friendly cleaning services, real-time booking via WhatsApp, and professional on-demand car care across Dubai and Abu Dhabi.",  tag: "ReactJS", link :"https://yaswash.com/" },
-                                 { image: ondemandlabs, title: "Ondemandlabs", description: "Cloud-native DevOps platform delivering infrastructure automation, CI/CD pipelines, and managed cloud services to help businesses build scalable, secure, and high-performance applications with faster deployment cycles.", tag: "ReactJS", link :"https://ondemandlabs.com/" },
-                                 { image: erpforce, title: "ERPForce", description: "AI-powered ERP platform designed for businesses in the UAE and Middle East, offering integrated modules for finance, HRMS, inventory, sales, and manufacturing with real-time analytics, automation, and enterprise-grade security.",  tag: "NextJS/next-intl", link :"https://erpforce.ai/" },
-                { image: weforce, title: "WEForce", description: "Digital transformation platform delivering custom software, AI solutions, cloud integration, and scalable IT services to help businesses optimize operations and drive growth.", tag: "NextJS", link :"https://weforce.co/" },
-                { image: quantasec, title: "QuantaSec",  description: "Security and surveillance solutions platform delivering SIRA-compliant CCTV systems, access control, and smart ELV integrations for residential and commercial environments in the UAE.",  tag: "HTML5/Javascript", link :"https://www.quantasec.ae/" },
-                { image: retrofit, title: "Retrofit Turbine PartsTrading FZ",  description: "Industrial solutions platform delivering high-performance gas and steam turbine repair, refurbishment, and spare parts supply with global support and engineering expertise.",  tag: "HTML5/Javascript", link :"https://www.retrofitturbineparts.com/" }
-              ].map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7, delay: index * 0.1, ease: [0.19, 1, 0.22, 1] }}
-                  className="group relative h-full"
-                >
-                  <div className={`h-full flex flex-col rounded-3xl overflow-hidden transition-all duration-500 ${
-                  isDark
-                    ? 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20'
-                    : 'bg-white/60 hover:bg-white border border-white/40 hover:border-white/60'
-                }`}>
-                    {/* Image */}
-                    <div className="aspect-[22/11] overflow-hidden relative">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.7, ease: "easeOut" }}
-                      >
-                        <ImageWithFallback
-                          src={project.image}
-                          alt={project.title}
-                          className={`w-full h-full object-cover transition-opacity duration-500 ${
-                            isDark ? 'opacity-85 group-hover:opacity-100' : 'opacity-100'
-                          }`}
-                        />
-                      </motion.div>
-                      {/* Tag */}
-                      <div className="absolute top-4 right-4 z-20">
-                        <div className="px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-['Outfit'] text-[11px] tracking-wider uppercase backdrop-blur-sm" style={{ fontWeight: 600 }}>
-                          {project.tag}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className={`font-['Outfit'] text-[20px] mb-2 transition-colors duration-300 ${
-                        isDark ? 'text-white' : 'text-[#1a1a1a]'
-                      }`} style={{ fontWeight: 600 }}>{project.title}</h3>
-                      <p className={`font-['Outfit'] text-[13px] leading-relaxed mb-5 transition-colors duration-300 ${
-                        isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-                      }`}>{project.description}</p>
-
-                      {/* CTA */}
-                      <motion.a
-                      href={project.link}
-                      target='_blank'
-                        whileHover={{ x: 4 }}
-                        className={`font-['Outfit'] text-[12px] tracking-wider uppercase flex items-center gap-2 transition-colors duration-300 ${
-                          isDark ? 'text-blue-400 hover:text-blue-300' : 'text-[#1a1a1a] hover:text-blue-600'
-                        }`}
-                        style={{ fontWeight: 600 }}
-                      >
-                        View Details
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                      </motion.a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </FadeInSection>
-        </div>
-      </section>
-
-      {/* Contact Section - Redesigned */}
-  
-  <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 pb-24" id="contact">
-  <div className="max-w-[1000px] mx-auto">
-    <FadeInSection>
-      <div
-        className={`relative rounded-[30px] sm:rounded-[40px] p-8 sm:p-12 md:p-16 overflow-hidden transition-all duration-500 ${
-          isDark
-            ? "bg-gradient-to-br from-white/10 via-white/5 to-transparent border border-white/10"
-            : "bg-gradient-to-br from-white/90 via-white/70 to-white/50 border border-white/60"
-        }`}
-      >
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-40 sm:w-64 h-40 sm:h-64 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-52 sm:w-80 h-52 sm:h-80 bg-gradient-to-tr from-purple-500/10 to-blue-500/10 rounded-full blur-3xl"></div>
-
-        <div className="relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            {/* Badge */}
-            <div
-              className={`inline-block px-4 sm:px-5 py-2 rounded-full backdrop-blur-sm mb-6 font-['Outfit'] text-[10px] sm:text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
-                isDark ? "bg-white/10 text-gray-300" : "bg-white/60 text-[#6a6a6a]"
-              }`}
-            >
-              Get in Touch
-            </div>
-
-            {/* Heading */}
-            <h2
-              className={`font-['Cormorant_Garamond'] text-[34px] sm:text-[44px] md:text-[56px] leading-[1.2] tracking-tight mb-6 transition-colors duration-300 ${
-                isDark ? "text-white" : "text-[#1a1a1a]"
-              }`}
-              style={{ fontWeight: 500 }}
-            >
-              Let's Build Something
-              <br />
-              Amazing Together
-            </h2>
-
-            {/* Contact Cards */}
-          
-          
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6 justify-center mb-10 sm:mb-12">
-  {[
-    {
-      icon: Mail,
-      label: "Email",
-      value: "guravana22@gmail.com",
-      link: "mailto:guravana22@gmail.com",
-      external: false, // 👈 important
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Rajam, Andhra Pradesh, India",
-      link: null,
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "linkedin.com/in/santosh-guravana-8a8a5828b",
-      link: "https://www.linkedin.com/in/santosh-guravana-8a8a5828b/",
-      external: true,
-    },
-  ].map((contact) => {
-    const Icon = contact.icon;
-    const isClickable = !!contact.link;
-
-    const content = (
-      <div
-        className={`group w-full sm:w-auto px-5 sm:px-6 py-3 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
-          isClickable ? "cursor-pointer" : "cursor-default"
-        } ${
-          isDark
-            ? "bg-white/5 border border-white/10 hover:bg-white/10"
-            : "bg-white/60 border border-white/40 hover:bg-white"
-        }`}
-      >
-        <div className="flex items-center gap-3">
-          {/* Icon (fix compression) */}
-          <div className="flex-shrink-0">
-            <Icon
-              size={18}
-              className={`transition-all duration-300 ${
-                isDark
-                  ? "text-gray-400 group-hover:text-blue-400"
-                  : "text-[#555] group-hover:text-blue-600"
-              }`}
-            />
-          </div>
-
-          {/* Text */}
-          <div className="text-left overflow-hidden">
-            <div
-              className={`font-['Outfit'] text-[10px] sm:text-[11px] uppercase tracking-wider ${
-                isDark ? "text-gray-500" : "text-[#8a8a8a]"
-              }`}
-            >
-              {contact.label}
-            </div>
-
-            <div
-              className={`font-['Outfit'] text-[13px] sm:text-[14px] truncate ${
-                isDark ? "text-white" : "text-[#1a1a1a]"
-              }`}
-              style={{ fontWeight: 500 }}
-            >
-              {contact.value}
-            </div>
-          </div>
+            0
+          </span>
         </div>
       </div>
-    );
 
-    // 👉 Handle click vs non-click properly
-    if (contact.link) {
-      return (
-        <a
-          key={contact.label}
-          href={contact.link}
-          {...(contact.external
-            ? { target: "_blank", rel: "noopener noreferrer" } // LinkedIn only
-            : {})}
-        >
-          {content}
-        </a>
-      );
-    }
+      {/* Cursor label */}
+      <div
+        data-cursor
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-[90] -ml-10 -mt-10 hidden h-20 w-20 place-items-center rounded-full bg-[var(--accent)] text-[14px] font-semibold text-[var(--on-accent)] md:pointer-fine:grid"
+        style={{ transform: 'scale(0)' }}
+      >
+        Open
+      </div>
 
-    return <div key={contact.label}>{content}</div>;
-  })}
-</div>
+      {/* Scroll progress */}
+      <div data-progress className="fixed left-0 top-0 z-[60] h-[3px] w-full origin-left bg-[var(--accent)]" style={{ transform: 'scaleX(0)' }} />
 
-            {/* Social Links */}
-            {/* <div className="flex flex-wrap gap-4 sm:gap-6 justify-center mt-10 sm:mt-12">
-              {[
-                { name: "GitHub", url: "https://github.com/guravana22" },
-                { name: "LinkedIn", url: "https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" },
-              ].map((social) => (
-                <motion.a
-                  key={social.name}
-                  href={social.url}
+      {/* Floating pill nav */}
+      <header data-nav className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+        <nav className="pointer-events-auto flex items-center gap-1 rounded-full border border-[var(--line)] bg-[var(--raise)]/70 p-1.5 backdrop-blur-xl">
+          <a
+            href="#top"
+            aria-label="Back to top"
+            className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] text-[13px] font-bold text-[var(--on-accent)]"
+            style={{ fontFamily: DISPLAY }}
+          >
+            SG
+          </a>
+          {navLinks.map(([label, href]) => (
+            <a key={label} href={href} className="rounded-full px-3.5 py-2 text-[14px] text-[var(--muted)] transition-colors hover:bg-[var(--line)] hover:text-[var(--fg)] sm:px-4">
+              {label}
+            </a>
+          ))}
+          <button
+            onClick={() => setTheme(isDark ? 'light' : 'dark')}
+            aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+            className="grid h-9 w-9 place-items-center rounded-full transition-colors hover:bg-[var(--line)]"
+          >
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <section id="top" className="flex min-h-[100svh] flex-col justify-between pb-8 pt-28 sm:pb-10">
+        <div className={`${wrap} flex flex-1 items-center`}>
+          <h1
+            data-hero-title
+            className="w-full text-[clamp(3rem,14.5vw,11rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.02em]"
+            style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+          >
+            <HeroRow>Santosh</HeroRow>
+            <HeroRow>Guravana</HeroRow>
+          </h1>
+        </div>
+
+        <div data-hero-bottom className={`${wrap} mt-10`}>
+          <div className="flex flex-col gap-8 border-t border-[var(--line)] pt-6 md:flex-row md:items-end md:justify-between">
+            <div className="flex items-end gap-4 sm:gap-5">
+              <a
+                data-hero-photo
+                href={linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Santosh on LinkedIn"
+                className="block h-28 w-20 shrink-0 overflow-hidden rounded-t-full rounded-b-2xl border border-[var(--line)] bg-[var(--raise)] sm:h-36 sm:w-28"
+              >
+                <ImageWithFallback src={profile} alt="Santosh Guravana" className="h-full w-full object-cover object-[50%_20%]" />
+              </a>
+              <p data-hero-sub className="max-w-[26rem] text-[16px] leading-relaxed sm:text-[18px]">
+                Front-end engineer at Trustin. I build fast, accessible React interfaces for fintech, legal and industrial teams across the UAE, Qatar and Saudi Arabia.
+              </p>
+            </div>
+
+            <div data-hero-sub className="flex flex-col gap-5 md:items-end">
+              <div className="flex flex-wrap gap-3">
+                <a href="#contact" className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[15px] font-semibold text-[var(--on-accent)] transition-transform hover:scale-[1.04]">
+                  Start a project
+                </a>
+                <a href="#work" className="rounded-full border border-[var(--line)] px-6 py-3.5 text-[15px] font-semibold transition-colors hover:bg-[var(--raise)]">
+                  See my work
+                </a>
+              </div>
+              <p className="flex items-center gap-2 text-[14px] text-[var(--muted)]">
+                <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+                Rajam, India. It's {time} here.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Statement */}
+      <section className="py-16 sm:py-24 md:py-32">
+        <div className={wrap}>
+          <p
+            data-statement
+            className="max-w-[62rem] text-[clamp(1.7rem,4.6vw,3.6rem)] font-semibold leading-[1.12] tracking-[-0.015em]"
+            style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(90) }}
+          >
+            <Words text={statement} />
+          </p>
+        </div>
+      </section>
+
+      {/* Work: stacking cards */}
+      <section id="work" className="scroll-mt-4 pb-10 pt-6 sm:pt-10">
+        <div className={wrap}>
+          <div className="mb-8 flex flex-col gap-3 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+            <Heading>Selected work</Heading>
+            <p data-fade className="max-w-[22rem] text-[15px] text-[var(--muted)]">
+              Live client sites I've built, from escrow platforms to law firms.
+            </p>
+          </div>
+
+          <div>
+            {featured.map((p, i) => (
+              <div
+                key={p.title}
+                data-stack-wrap
+                className={`sticky ${i === featured.length - 1 ? '' : 'mb-[10vh] md:mb-[14vh]'}`}
+                style={{ top: `calc(5.5rem + ${i * 14}px)` }}
+              >
+                <a
+                  data-stack-card
+                  data-cursor-open
+                  href={p.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ y: -3 }}
-                  className={`font-['Outfit'] text-[13px] tracking-wide transition-colors duration-300 ${
-                    isDark
-                      ? "text-gray-400 hover:text-blue-400"
-                      : "text-[#6a6a6a] hover:text-[#1a1a1a]"
-                  }`}
-                  style={{ fontWeight: 500 }}
+                  className="group grid origin-top gap-5 rounded-[28px] border border-[var(--line)] bg-[var(--raise)] p-4 sm:p-5 md:h-[500px] md:grid-cols-[0.85fr_1.15fr] md:gap-10 md:p-8 md:pointer-fine:cursor-none"
                 >
-                  {social.name}
-                </motion.a>
-              ))}
-            </div> */}
-          </motion.div>
-        </div>
-      </div>
-    </FadeInSection>
-  </div>
-</section>
+                  <div className="order-2 flex flex-col justify-between gap-6 md:order-1 md:py-1">
+                    <div>
+                      <div className="mb-4 flex flex-wrap gap-2">
+                        {p.tag.split(', ').map((t) => (
+                          <span key={t} className="rounded-full border border-[var(--line)] px-3 py-1 text-[13px] text-[var(--muted)]">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <h3
+                        className="text-[clamp(1.8rem,4vw,3.4rem)] font-bold leading-[1.02] tracking-[-0.02em]"
+                        style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+                      >
+                        {p.title}
+                      </h3>
+                      <p className="mt-4 max-w-[30rem] text-[15px] leading-relaxed text-[var(--muted)]">{p.description}</p>
+                    </div>
+                    <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[var(--fg)] px-5 py-3 text-[14px] font-semibold text-[var(--bg)] transition-transform group-hover:scale-[1.04]">
+                      Visit site <ArrowUpRight size={16} />
+                    </span>
+                  </div>
 
-      {/* Footer */}
-      <footer className={`px-8 pb-5 border-t transition-colors duration-500 ${
-        isDark ? 'border-white/5' : 'border-black/5'
-      }`}>
-        <div className={`max-w-[1400px] mx-auto flex justify-center items-center font-['Outfit'] text-[12px] tracking-wide flex-wrap gap-4 pt-5 transition-colors duration-300 ${
-          isDark ? 'text-gray-500' : 'text-[#8a8a8a]'
-        }`}>
-            <div className="text-center flex items-center gap-1">
-      ©{new Date().getFullYear()} All Rights Reserved. Made with
-      <span className="text-red-500 animate-pulse">❤️</span>
-      by <span className='text-black font-bold'>Santosh Guravana</span>
-    </div>
-          <div className="flex gap-8">
-            {/* <a href="https://github.com/guravana22" className={`transition-colors duration-300 ${
-              isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
-            }`}>GitHub</a> */}
-            {/* <a href="https://www.linkedin.com/in/santosh-guravana-8a8a5828b/" className={`transition-colors duration-300 ${
-              isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
-            }`}>LinkedIn</a> */}
-            {/* <a href="#" className={`transition-colors duration-300 ${
-              isDark ? 'hover:text-blue-400' : 'hover:text-[#1a1a1a]'
-            }`}>Twitter</a> */}
+                  <div className="order-1 aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--bg)] md:order-2 md:aspect-auto md:h-full">
+                    <div data-stack-img className="h-full w-full">
+                      <ImageWithFallback src={p.image} alt={`${p.title} website`} className="h-full w-full object-cover object-top" />
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
           </div>
         </div>
+      </section>
+
+      {/* More work */}
+      <section className="py-14 sm:py-20">
+        <div className={wrap}>
+          <div className="mb-6 sm:mb-8">
+            <Heading>Also built</Heading>
+          </div>
+          <div className="border-t border-[var(--line)]">
+            {more.map((p) => (
+              <a
+                key={p.title}
+                data-row
+                href={p.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 border-b border-[var(--line)] py-4 transition-colors hover:bg-[var(--raise)] sm:gap-6 sm:px-3 sm:py-5"
+              >
+                <div className="h-12 w-[4.5rem] shrink-0 overflow-hidden rounded-lg border border-[var(--line)] sm:h-14 sm:w-24">
+                  <ImageWithFallback src={p.image} alt="" className="h-full w-full object-cover object-top" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3
+                    className="text-[clamp(1.1rem,3vw,2rem)] font-semibold leading-tight tracking-[-0.01em] transition-transform duration-300 group-hover:translate-x-2"
+                    style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+                  >
+                    {p.title}
+                  </h3>
+                  <p className="mt-0.5 text-[13px] text-[var(--muted)] sm:hidden">{p.tag}</p>
+                </div>
+                <span className="hidden shrink-0 text-[14px] text-[var(--muted)] sm:block">{p.tag}</span>
+                <ArrowUpRight size={22} className="shrink-0 text-[var(--muted)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Marquee */}
+      <section className="overflow-hidden border-y border-[var(--line)] py-5 sm:py-7" aria-label="Technologies I work with">
+        <div data-marquee-track className="flex w-max items-center gap-8 whitespace-nowrap sm:gap-12">
+          {[...tech, ...tech].map((t, i) => (
+            <span key={i} className="flex items-center gap-8 sm:gap-12">
+              <span
+                className={`text-[clamp(2.2rem,6vw,5rem)] font-extrabold uppercase tracking-[-0.01em] ${i % 2 === 0 ? 'outline-text' : ''}`}
+                style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+              >
+                {t}
+              </span>
+              <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent)]" />
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="scroll-mt-4 py-14 sm:py-20 md:py-28">
+        <div className={`${wrap} grid gap-12 lg:grid-cols-[1fr_1.8fr] lg:gap-16`}>
+          {/* Left: sticky intro */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <Heading>About</Heading>
+            <p data-fade className="mt-5 max-w-[26rem] text-[16px] leading-relaxed text-[var(--muted)]">
+              Three years of building production front-ends: from regulated escrow flows to multilingual legal sites. I care about the details people only notice when they're missing.
+            </p>
+            <div className="mt-8 grid grid-cols-3 gap-4 border-t border-[var(--line)] pt-6">
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <div
+                    data-count={s.value}
+                    data-suffix={s.suffix}
+                    className="text-[clamp(2rem,4vw,3rem)] font-bold leading-none text-[var(--accent)]"
+                    style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+                  >
+                    {s.value}{s.suffix}
+                  </div>
+                  <div className="mt-2 text-[13px] leading-snug text-[var(--muted)]">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: details */}
+          <div className="space-y-14">
+            <div data-fade>
+              <h3 className="mb-5 text-[24px] font-bold" style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}>Experience</h3>
+              <ul className="border-t border-[var(--line)]">
+                {experience.map((e) => (
+                  <li key={e.role} className="grid gap-2 border-b border-[var(--line)] py-6 md:grid-cols-[10rem_1fr] md:gap-8">
+                    <div className="text-[14px] text-[var(--muted)]">{e.years}</div>
+                    <div>
+                      <div className="text-[18px] font-semibold">{e.role}</div>
+                      <a href={e.link} target="_blank" rel="noopener noreferrer" className="text-[15px] text-[var(--accent)] hover:underline">
+                        {e.company}
+                      </a>
+                      <p className="mt-3 max-w-[38rem] text-[15px] leading-relaxed text-[var(--muted)]">{e.note}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div data-fade>
+              <h3 className="mb-5 text-[24px] font-bold" style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}>Education</h3>
+              <ul className="border-t border-[var(--line)]">
+                {education.map((e) => (
+                  <li key={e.degree} className="grid gap-2 border-b border-[var(--line)] py-5 md:grid-cols-[10rem_1fr] md:gap-8">
+                    <div className="text-[14px] text-[var(--muted)]">{e.years}</div>
+                    <div>
+                      <div className="text-[17px] font-semibold">{e.degree}</div>
+                      <div className="text-[15px] text-[var(--muted)]">{e.school}</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div data-fade data-skills>
+              <h3 className="mb-5 text-[24px] font-bold" style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}>Core stack</h3>
+              <ul className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+                {skills.map((s) => (
+                  <li key={s.name}>
+                    <div className="mb-2 flex items-center gap-3">
+                      <img src={s.icon} alt="" className="h-6 w-6 shrink-0 object-contain" />
+                      <span className="flex-1 text-[16px] font-medium">{s.name}</span>
+                      <span className="text-[13px] text-[var(--muted)]">{s.level}</span>
+                    </div>
+                    <div className="h-[3px] w-full overflow-hidden rounded-full bg-[var(--line)]">
+                      <div data-bar className="h-full origin-left rounded-full bg-[var(--accent)]" style={{ width: `${s.pct}%` }} />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div data-fade>
+              <h3 className="mb-5 text-[24px] font-bold" style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}>What I do</h3>
+              <ul className="grid gap-x-10 sm:grid-cols-2">
+                {services.map(([t, d]) => (
+                  <li key={t} className="border-t border-[var(--line)] py-5">
+                    <div className="text-[17px] font-semibold">{t}</div>
+                    <div className="mt-1 text-[14px] leading-relaxed text-[var(--muted)]">{d}</div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="scroll-mt-4 px-3 pb-6 pt-8 sm:px-5 md:pt-14">
+        <div
+          data-panel
+          className="mx-auto max-w-[1360px] rounded-[40px] bg-[var(--accent)] p-7 text-[var(--on-accent)] sm:p-12 md:p-16"
+        >
+          <h2
+            className="max-w-[16ch] text-[clamp(2.6rem,9vw,7.5rem)] font-extrabold leading-[0.95] tracking-[-0.02em]"
+            style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+          >
+            Got a project? Let's talk.
+          </h2>
+
+          <a
+            href={`mailto:${email}`}
+            className="group mt-10 inline-flex max-w-full items-center gap-3 rounded-full bg-[var(--on-accent)] px-6 py-4 text-[clamp(1rem,3.8vw,1.6rem)] font-semibold text-[var(--accent)] transition-transform hover:scale-[1.02] sm:mt-14 sm:px-8 sm:py-5"
+          >
+            <span className="break-all">{email}</span>
+            <ArrowUpRight className="shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
+
+          <div className="mt-10 flex flex-col gap-3 border-t border-[var(--on-accent)]/25 pt-6 text-[15px] sm:mt-14 md:flex-row md:flex-wrap md:gap-x-10">
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
+              <Linkedin size={17} /> LinkedIn
+            </a>
+            <a href={`mailto:${email}`} className="flex items-center gap-2 hover:underline">
+              <Mail size={17} /> Email
+            </a>
+            <span className="flex items-center gap-2 opacity-80">
+              <MapPin size={17} /> Rajam, Andhra Pradesh, India
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer wordmark */}
+      <footer data-footer className="overflow-hidden px-5 pb-6 pt-10 sm:px-8">
+        <div
+          data-wordmark
+          aria-hidden
+          className="whitespace-nowrap text-center text-[7.4vw] font-extrabold uppercase leading-[0.9] tracking-[-0.01em] text-[var(--fg)] opacity-[0.14]"
+          style={{ fontFamily: DISPLAY, fontVariationSettings: wdth(100) }}
+        >
+          Santosh Guravana
+        </div>
+        <p className="mt-4 text-center text-[13px] text-[var(--muted)]">© {new Date().getFullYear()} Santosh Guravana</p>
       </footer>
     </div>
-  );
-}
-
-// Tech Stack Marquee Component
-function TechStackMarquee({ isDark }: { isDark: boolean }) {
-  const technologies = [
-    "React Js", "TypeScript", "JavaScript", "Tailwind CSS", "Next.js" ,"Bootstrap/React Bootstrap",
-    "Node.js", "Figma", "Git", "HTML", "CSS", "Motion", "Vite" , "Canva" , "SEO" ,"Webflow", "Strapi", "Responsive Design"
-  ];
-
-  // Duplicate the array for seamless loop
-  const duplicatedTech = [...technologies, ...technologies];
-
-  const [isPaused, setIsPaused] = useState(false);
-
-  return (
-    <section className="py-10 px-8 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto">
-        {/* Optional Section Title */}
-        <div className="text-center mb-6">
-          <div className={`inline-block px-6 py-2 rounded-full backdrop-blur-sm font-['Outfit'] text-[11px] tracking-[0.2em] uppercase transition-colors duration-300 ${
-            isDark ? 'bg-white/5 text-gray-400' : 'bg-white/40 text-[#6a6a6a]'
-          }`} style={{ fontWeight: 500 }}>
-            Tech Stack
-          </div>
-        </div>
-
-        <div
-          className={`backdrop-blur-sm rounded-[28px] py-7 overflow-hidden relative transition-all duration-500 ${
-            isDark
-              ? 'bg-white/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)] border border-white/10'
-              : 'bg-white/40 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.06)] border border-white/60'
-          }`}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Marquee Container */}
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex gap-6 items-center will-change-transform"
-              animate={isPaused ? {} : {
-                x: ['0%', '-50%']
-              }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 25,
-                  ease: "linear"
-                }
-              }}
-              style={{
-                width: 'fit-content'
-              }}
-            >
-              {duplicatedTech.map((tech, index) => (
-                <motion.div
-                  key={`${tech}-${index}`}
-                  whileHover={{ scale: 1.08, y: -2 }}
-                  transition={{ duration: 0.2 }}
-                  className={`flex-shrink-0 px-6 py-3 backdrop-blur-sm rounded-full transition-all duration-300 cursor-pointer ${
-                    isDark
-                      ? 'bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.3)] hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:border-blue-500/50'
-                      : 'bg-gradient-to-br from-white/80 to-white/40 border border-white/60 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.12)]'
-                  }`}
-                >
-                  <span className={`font-['Outfit'] text-[13px] tracking-wide whitespace-nowrap select-none transition-colors duration-300 ${
-                    isDark ? 'text-gray-300' : 'text-[#3a3a3a]'
-                  }`} style={{ fontWeight: 500 }}>
-                    {tech}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Gradient Fade Edges */}
-            <div className={`absolute left-0 top-0 bottom-0 w-24 pointer-events-none z-10 transition-colors duration-500 ${
-              isDark
-                ? 'bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent'
-                : 'bg-gradient-to-r from-white/40 via-white/20 to-transparent'
-            }`}></div>
-            <div className={`absolute right-0 top-0 bottom-0 w-24 pointer-events-none z-10 transition-colors duration-500 ${
-              isDark
-                ? 'bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent'
-                : 'bg-gradient-to-l from-white/40 via-white/20 to-transparent'
-            }`}></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Fade-in wrapper component
-function FadeInSection({ children }: { children: ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-
-function ServiceCard({
-  icon,
-  title,
-  description,
-  isDark
-}: {
-  icon: string;
-  title: string;
-  description: string;
-  isDark: boolean;
-}) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`group backdrop-blur-sm rounded-[24px] p-8 transition-all duration-500 h-full flex flex-col ${
-        isDark
-          ? 'bg-white/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)] hover:shadow-[0_0_40px_rgba(99,102,241,0.2)] border border-white/10 hover:border-blue-500/50 hover:bg-white/10'
-          : 'bg-white/50 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.15)] border border-white/60 hover:bg-white/70'
-      }`}
-    >
-      {/* Icon */}
-      <div className="text-[32px] mb-5">
-        <img
-          src={icon}
-          alt="icon"
-          className="w-[50px] h-auto object-contain"
-        />
-      </div>
-
-      {/* Title */}
-      <h3
-        className={`font-['Cormorant_Garamond'] text-[26px] mb-3 tracking-tight ${
-          isDark ? 'text-white' : 'text-[#1a1a1a]'
-        }`}
-        style={{ fontWeight: 500 }}
-      >
-        {title}
-      </h3>
-
-      {/* Description */}
-      <p
-        className={`font-['Outfit'] text-[13px] leading-relaxed tracking-wide flex-grow ${
-          isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-        }`}
-      >
-        {description}
-      </p>
-    </motion.div>
-  );
-}
-
-function InfoCard({ icon, label, value, isDark }: { icon: string; label: string; value: string; isDark: boolean }) {
-  return (
-    <div className={`backdrop-blur-sm rounded-[20px] p-6 transition-all duration-500 ${
-      isDark
-        ? 'bg-white/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)] border border-white/10 hover:shadow-[0_12px_40px_-10px_rgba(99,102,241,0.2)] hover:border-blue-500/30'
-        : 'bg-white/50 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] border border-white/60 hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.12)]'
-    }`}>
-      <div className="flex items-center gap-4">
-        <div className={`text-[22px] opacity-40 transition-colors duration-300 ${
-          isDark ? 'text-gray-300' : 'text-[#3a3a3a]'
-        }`}>
-          {icon}
-        </div>
-        <div className="flex-1">
-          <div className={`font-['Outfit'] text-[11px] tracking-[0.15em] uppercase mb-1 transition-colors duration-300 ${
-            isDark ? 'text-gray-500' : 'text-[#8a8a8a]'
-          }`} style={{ fontWeight: 500 }}>
-            {label}
-          </div>
-          <div className={`font-['Outfit'] text-[15px] tracking-wide transition-colors duration-300 ${
-            isDark ? 'text-gray-200' : 'text-[#2a2a2a]'
-          }`}>
-            {value}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function QualificationCard({ degree, institution, year, current, isDark }: { degree: string; institution: string; year: string; current: boolean; isDark: boolean }) {
-  return (
-    <div className={`backdrop-blur-sm rounded-[24px] p-8 transition-all duration-500 ${
-      isDark
-        ? 'bg-white/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)] border border-white/10 hover:shadow-[0_12px_40px_-10px_rgba(99,102,241,0.2)] hover:border-blue-500/30'
-        : 'bg-white/50 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] border border-white/60 hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.12)]'
-    }`}>
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-        <div className="flex-1">
-          <h3 className={`font-['Cormorant_Garamond'] text-[24px] mb-2 tracking-tight transition-colors duration-300 ${
-            isDark ? 'text-white' : 'text-[#1a1a1a]'
-          }`} style={{ fontWeight: 500 }}>
-            {degree}
-          </h3>
-          <p className={`font-['Outfit'] text-[14px] tracking-wide transition-colors duration-300 ${
-            isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-          }`}>
-            {institution}
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <div className={`inline-block px-5 py-2 rounded-full backdrop-blur-sm font-['Outfit'] text-[12px] tracking-wide transition-all duration-300 ${
-            isDark
-              ? 'bg-white/10 text-gray-300 border border-white/20'
-              : 'bg-white/60 text-[#5a5a5a] border border-white/40'
-          }`}>
-            {year}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ExperienceCard({ role, company, duration, description, current, isDark }: { role: string; company: string; duration: string; description: string; current: boolean; isDark: boolean }) {
-  return (
-    <div className={`backdrop-blur-sm rounded-[24px] p-8 transition-all duration-500 relative overflow-hidden ${
-      isDark
-        ? 'bg-white/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)] border border-white/10 hover:shadow-[0_12px_40px_-10px_rgba(99,102,241,0.2)] hover:border-blue-500/30'
-        : 'bg-white/50 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] border border-white/60 hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.12)]'
-    }`}>
-      {current && (
-        <div className="absolute top-0 right-0 mt-5 mr-5">
-          <div className="px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-['Outfit'] text-[10px] tracking-widest uppercase" style={{ fontWeight: 500 }}>
-            Current
-          </div>
-        </div>
-      )}
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
-        <div className="flex-1">
-          <h3 className={`font-['Cormorant_Garamond'] text-[26px] mb-2 tracking-tight transition-colors duration-300 ${
-            isDark ? 'text-white' : 'text-[#1a1a1a]'
-          }`} style={{ fontWeight: 500 }}>
-            {role}
-          </h3>
-          <p className={`font-['Outfit'] text-[15px] tracking-wide transition-colors duration-300 ${
-            isDark ? 'text-gray-300' : 'text-[#4a4a4a]'
-          }`} style={{ fontWeight: 500 }}>
-            {company}
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <div className={`inline-block px-5 py-2 rounded-full backdrop-blur-sm font-['Outfit'] text-[12px] tracking-wide transition-all duration-300 ${
-            isDark
-              ? 'bg-white/10 text-gray-300 border border-white/20'
-              : 'bg-white/60 text-[#5a5a5a] border border-white/40'
-          }`}>
-            {duration}
-          </div>
-        </div>
-      </div>
-      <p className={`font-['Outfit'] text-[13px] leading-relaxed tracking-wide transition-colors duration-300 ${
-        isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-      }`}>
-        {description}
-      </p>
-    </div>
-  );
-}
-
-function ProjectCard({ image, title, description, isDark }: { image: string; title: string; description: string; isDark: boolean }) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.04, y: -4 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className={`group backdrop-blur-sm rounded-[24px] overflow-hidden transition-all duration-500 ${
-        isDark
-          ? 'bg-white/5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3)] hover:shadow-[0_0_40px_rgba(99,102,241,0.3)] border border-white/10 hover:border-blue-500/50'
-          : 'bg-white/50 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.18)] border border-white/60'
-      }`}
-    >
-      <div className={`aspect-[4/3] overflow-hidden ${
-        isDark ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-[#e8e8ea] to-[#f0f0f2]'
-      }`}>
-        <motion.div
-          whileHover={{ scale: 1.08 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <ImageWithFallback
-            src={image}
-            alt={title}
-            className={`w-full h-full object-cover transition-opacity duration-500 ${
-              isDark ? 'opacity-90 group-hover:opacity-100' : 'opacity-100'
-            }`}
-          />
-        </motion.div>
-      </div>
-      <div className="p-6">
-        <h3 className={`font-['Cormorant_Garamond'] text-[24px] mb-2 tracking-tight transition-colors duration-300 ${
-          isDark ? 'text-white' : 'text-[#1a1a1a]'
-        }`} style={{ fontWeight: 500 }}>
-          {title}
-        </h3>
-        <p className={`font-['Outfit'] text-[13px] leading-relaxed tracking-wide mb-5 transition-colors duration-300 ${
-          isDark ? 'text-gray-400' : 'text-[#6a6a6a]'
-        }`}>
-          {description}
-        </p>
-        <button className={`font-['Outfit'] text-[12px] tracking-widest uppercase transition-colors duration-300 flex items-center gap-2 group/btn ${
-          isDark ? 'text-blue-400 hover:text-blue-300' : 'text-[#1a1a1a] hover:text-[#000]'
-        }`} style={{ fontWeight: 500 }}>
-          View Project
-          <span className="group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
-        </button>
-      </div>
-    </motion.div>
-  );
-}
-
-
-// Lamp Toggle Component
-function LampToggle({ isDark, onToggle, scrollYProgress }: { isDark: boolean; onToggle: () => void; scrollYProgress: any }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Parallax effect on scroll
-  const lampY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
-
-  return (
-    <motion.div
-      style={{ y: lampY }}
-      className="absolute top-20 right-[8%] hidden lg:block z-20"
-    >
-      <motion.button
-        onClick={onToggle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ rotate: [0, -8, 8, -5, 5, 0] }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative cursor-pointer focus:outline-none"
-        aria-label="Toggle theme"
-      >
-      
-      <motion.div
-  animate={{
-    rotate: [-1.5, 1.5, -1.5],
-  }}
-  transition={{
-    duration: 4,
-    repeat: Infinity,
-    ease: "easeInOut",
-  }}
-  className="flex flex-col items-center origin-top"
->
-  {/* Hanging Wire */}
-  <div
-    className={`w-[2px] h-24 transition-colors duration-500 ${
-      isDark
-        ? "bg-gradient-to-b from-white/30 to-white/20"
-        : "bg-gradient-to-b from-gray-400/50 to-gray-500/40"
-    }`}
-  ></div>
-
-  {/* Lamp Socket */}
-  <div
-    className={`w-8 h-6 rounded-t-lg transition-all duration-500 ${
-      isDark
-        ? "bg-gradient-to-b from-gray-700 to-gray-800 border border-white/10"
-        : "bg-gradient-to-b from-gray-300 to-gray-400 border border-gray-500/20"
-    }`}
-  ></div>
-
-  {/* Light Bulb Container */}
-  <div className="relative" style={{ transform: "rotate(180deg)" }}>
-    {/* Outer Glow */}
-    <motion.div
-      animate={{
-        opacity: isDark ? 0 : isHovered ? 0.9 : 0.7,
-        scale: isDark ? 0.8 : isHovered ? 1.15 : 1,
-      }}
-      transition={{ duration: 0.5 }}
-      className="absolute -inset-8 rounded-full bg-gradient-to-br from-yellow-300/40 via-orange-200/30 to-yellow-100/20 blur-2xl"
-    />
-
-    {/* Mid Glow */}
-    <motion.div
-      animate={{
-        opacity: isDark ? 0 : isHovered ? 0.8 : 0.5,
-        scale: isDark ? 0.7 : isHovered ? 1.2 : 1,
-      }}
-      transition={{ duration: 0.5 }}
-      className="absolute -inset-4 rounded-full bg-gradient-to-br from-yellow-400/50 via-orange-300/40 to-yellow-200/30 blur-xl"
-    />
-
-    {/* Light Bulb */}
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      transition={{ duration: 0.3 }}
-      className="relative"
-    >
-      {/* SVG Bulb */}
-      <svg
-        width="56"
-        height="72"
-        viewBox="0 0 56 72"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="relative z-10"
-      >
-        {/* Bulb Shape */}
-        <motion.path
-          d="M28 4C17.5066 4 9 12.5066 9 23C9 29.5 12 34.5 15 39C17 42 18.5 44.5 18.5 48V52H37.5V48C37.5 44.5 39 42 41 39C44 34.5 47 29.5 47 23C47 12.5066 38.4934 4 28 4Z"
-          fill={isDark ? "url(#bulbGradientOff)" : "url(#bulbGradientOn)"}
-          stroke={isDark ? "#4a5568" : "#fbbf24"}
-          strokeWidth="1.5"
-          transition={{ duration: 0.5 }}
-        />
-
-        {/* Filament */}
-        <motion.path
-          d="M28 18 L28 38 M24 26 L32 26 M24 30 L32 30"
-          stroke={isDark ? "#4a5568" : "#ff9800"}
-          strokeWidth={isDark ? 1 : 2}
-          strokeLinecap="round"
-          animate={{ opacity: isDark ? 0.2 : 1 }}
-          transition={{ duration: 0.5 }}
-        />
-
-        {/* Base */}
-        <rect x="18.5" y="52" width="19" height="3" rx="1" fill={isDark ? "#374151" : "#78716c"} />
-        <rect x="18.5" y="56" width="19" height="3" rx="1" fill={isDark ? "#374151" : "#78716c"} />
-        <rect x="18.5" y="60" width="19" height="3" rx="1" fill={isDark ? "#374151" : "#78716c"} />
-        <rect x="20" y="64" width="16" height="5" rx="1.5" fill={isDark ? "#1f2937" : "#57534e"} />
-
-        {/* Gradients */}
-        <defs>
-          <radialGradient id="bulbGradientOn" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.95" />
-            <stop offset="50%" stopColor="#fde68a" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#fbbf24" stopOpacity="0.85" />
-          </radialGradient>
-
-          <radialGradient id="bulbGradientOff" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="#374151" stopOpacity="0.6" />
-            <stop offset="50%" stopColor="#1f2937" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#111827" stopOpacity="0.8" />
-          </radialGradient>
-        </defs>
-      </svg>
-
-      {/* Inner Glow */}
-      <motion.div
-        animate={{
-          opacity: isDark ? 0 : isHovered ? 0.7 : 0.5,
-        }}
-        transition={{ duration: 0.5 }}
-        className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-8 bg-yellow-200 rounded-full blur-md"
-      />
-    </motion.div>
-  </div>
-
-  {/* Light Rays */}
-  <motion.div
-    animate={{
-      opacity: isDark ? 0 : isHovered ? 0.4 : 0.25,
-      scale: isDark ? 0 : isHovered ? 1.1 : 1,
-    }}
-    transition={{ duration: 0.5 }}
-    className="absolute top-32 left-1/2 -translate-x-1/2 pointer-events-none"
-  >
-    <div
-      className="w-24 h-32 bg-gradient-to-b from-yellow-200/30 via-yellow-100/10 to-transparent blur-sm"
-      style={{
-        clipPath: "polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%)",
-      }}
-    />
-  </motion.div>
-</motion.div>
-
-        {/* Hint Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{
-            opacity: isHovered ? 1 : 0,
-            y: isHovered ? 0 : 10
-          }}
-          transition={{ duration: 0.3 }}
-          className={`absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap font-['Outfit'] text-[11px] tracking-wider uppercase ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}
-        >
-          {isDark ? 'Turn On' : 'Turn Off'}
-        </motion.div>
-      </motion.button>
-    </motion.div>
   );
 }
