@@ -164,7 +164,7 @@ function useClock() {
 /* App                                                                 */
 /* ------------------------------------------------------------------ */
 export default function App() {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
   const rootRef = useRef<HTMLDivElement>(null);
   const time = useClock();
   const isDark = theme === 'dark';
