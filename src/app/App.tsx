@@ -36,8 +36,8 @@ const THEMES: Record<'dark' | 'light', Record<string, string>> = {
     '--fg': '#F2EEE6',
     '--muted': '#9A95A6',
     '--line': 'rgba(242,238,230,0.13)',
-    '--accent': '#B9A7FF',
-    '--on-accent': '#14102A',
+    '--accent': '#146b43',
+    '--on-accent': '#FFFF',
   },
   light: {
     '--bg': '#F4F2F8',
@@ -45,7 +45,7 @@ const THEMES: Record<'dark' | 'light', Record<string, string>> = {
     '--fg': '#14121C',
     '--muted': '#625D70',
     '--line': 'rgba(20,18,28,0.14)',
-    '--accent': '#5B3FE0',
+    '--accent': '#146b43',
     '--on-accent': '#FFFFFF',
   },
 };
@@ -75,12 +75,12 @@ const featured = [
 ];
 
 const more = [
-  { image: fatlanding, title: 'Al-Tamimi Law Firm: Landing Page', tag: 'React, Motion', link: 'https://www.tamimilawfirm.com/welcome' },
-  { image: yaswash, title: 'YasWash', tag: 'React', link: 'https://yaswash.com/' },
-  { image: ondemandlabs, title: 'Ondemandlabs', tag: 'React', link: 'https://ondemandlabs.com/' },
-  { image: weforce, title: 'WEForce', tag: 'Next.js', link: 'https://weforce.co/' },
-  { image: quantasec, title: 'QuantaSec', tag: 'HTML, JavaScript', link: 'https://www.quantasec.ae/' },
-  { image: retrofit, title: 'Retrofit Turbine Parts Trading', tag: 'HTML, JavaScript', link: 'https://www.retrofitturbineparts.com/' },
+  { key: 'fatLanding', image: fatlanding, title: 'Al-Tamimi Law Firm: Landing Page', tag: 'React, Motion', link: 'https://www.tamimilawfirm.com/welcome' },
+  { key: 'yasWash', image: yaswash, title: 'YasWash', tag: 'React', link: 'https://yaswash.com/' },
+  { key: 'ondemandlabs', image: ondemandlabs, title: 'Ondemandlabs', tag: 'React', link: 'https://ondemandlabs.com/' },
+  { key: 'weforce', image: weforce, title: 'WEForce', tag: 'Next.js', link: 'https://weforce.co/' },
+  { key: 'quantasec', image: quantasec, title: 'QuantaSec', tag: 'HTML, JavaScript', link: 'https://www.quantasec.ae/' },
+  { key: 'retrofit', image: retrofit, title: 'Retrofit Turbine Parts Trading', tag: 'HTML, JavaScript', link: 'https://www.retrofitturbineparts.com/' },
 ];
 
 const skills = [
@@ -565,7 +565,7 @@ function Portfolio({ locale, onLocaleChange }: { locale: LocaleCode; onLocaleCha
           <button
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
             aria-label={isDark ? t('nav.toLight') : t('nav.toDark')}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-[var(--line)]"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-[var(--line)] cursor-pointer"
           >
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
@@ -701,7 +701,7 @@ function Portfolio({ locale, onLocaleChange }: { locale: LocaleCode; onLocaleCha
           <div className="border-t border-[var(--line)]">
             {more.map((p) => (
               <a
-                key={p.title}
+                key={p.key}
                 data-row
                 href={p.link}
                 target="_blank"
@@ -719,7 +719,10 @@ function Portfolio({ locale, onLocaleChange }: { locale: LocaleCode; onLocaleCha
                   >
                     {p.title}
                   </h3>
-                  <p className="mt-0.5 text-[13px] text-[var(--muted)] sm:hidden" dir="ltr">{p.tag}</p>
+                  <p className="mt-1 line-clamp-2 max-w-[46rem] text-[13px] leading-snug text-[var(--muted)] sm:text-[14px]">
+                    {t(`projects.${p.key}`)}
+                  </p>
+                  <p className="mt-1.5 text-[12px] text-[var(--accent)] sm:hidden" dir="ltr">{p.tag}</p>
                 </div>
                 <span className="hidden shrink-0 text-[14px] text-[var(--muted)] sm:block" dir="ltr">{p.tag}</span>
                 <ArrowUpRight size={22} className="shrink-0 text-[var(--muted)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]" />

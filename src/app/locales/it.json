@@ -6,9 +6,7 @@
   "nav.toLight": "Passa al tema chiaro",
   "nav.toDark": "Passa al tema scuro",
   "nav.language": "Cambia lingua",
-
   "loader.tagline": "Santosh Guravana, ingegnere front-end",
-
   "hero.first": "Santosh",
   "hero.last": "Guravana",
   "hero.photoLabel": "Santosh Guravana su LinkedIn",
@@ -16,31 +14,31 @@
   "hero.ctaPrimary": "Avvia un progetto",
   "hero.ctaSecondary": "Guarda i miei lavori",
   "hero.location": "Rajam, India. Qui sono le {time}.",
-
   "statement.text": "Realizzo interfacce per prodotti in cui la fiducia conta: escrow, legale, sanità e software enterprise. Veloci da caricare, facili da usare e curate nei dettagli.",
-
   "work.title": "Lavori selezionati",
   "work.subtitle": "Siti reali di clienti che ho realizzato, dalle piattaforme escrow agli studi legali.",
   "work.visit": "Visita il sito",
   "work.open": "Apri",
   "work.siteAlt": "Sito web di {title}",
-
   "projects.trustinQatar": "Piattaforma di escrow digitale in Qatar per transazioni sicure e trasparenti tra aziende e privati.",
   "projects.trustin": "Escrow regolamentato negli Emirati con conti IBAN istantanei, supporto multi-parte e tracciamento dei fondi in tempo reale.",
   "projects.tTherapy": "Piattaforma sanitaria svizzera per il sollievo dal dolore non invasivo, con pagine cliniche e rete di partner.",
   "projects.fahad": "Sito di servizi legali per aziende per uno studio saudita, con portale clienti integrato con l’AI.",
   "projects.erpforce": "ERP basato su AI per finanza, HRMS, magazzino, vendite e produzione in tutto il Medio Oriente.",
   "projects.aaks": "Manutenzione, riparazione e supporto al ciclo di vita di turbine a gas e a vapore in tutta l’area GCC.",
-
+  "projects.fatLanding": "Landing page per uno studio legale saudita che assiste investitori stranieri: registrazione MISA, M&A, risoluzione delle controversie e prenotazione di consulenze.",
+  "projects.yasWash": "Autolavaggio premium a domicilio negli Emirati: pulizia ecologica, prenotazione in tempo reale via WhatsApp e servizio su richiesta a Dubai e Abu Dhabi.",
+  "projects.ondemandlabs": "Piattaforma DevOps cloud-native per automazione dell’infrastruttura, pipeline CI/CD e servizi cloud gestiti, per rilasci più rapidi e sicuri.",
+  "projects.weforce": "Piattaforma di trasformazione digitale con software su misura, soluzioni AI, integrazione cloud e servizi IT scalabili.",
+  "projects.quantasec": "Soluzioni di sicurezza e videosorveglianza: CCTV conformi SIRA, controllo accessi e integrazioni ELV smart per abitazioni e aziende negli Emirati.",
+  "projects.retrofit": "Soluzioni industriali per riparazione e revisione di turbine a gas e a vapore e fornitura di ricambi, con supporto globale e competenza ingegneristica.",
   "more.title": "Altri progetti",
   "marquee.label": "Tecnologie con cui lavoro",
-
   "about.title": "Chi sono",
   "about.intro": "Tre anni a costruire front-end in produzione: dai flussi escrow regolamentati ai siti legali multilingua. Mi interessano i dettagli che le persone notano solo quando mancano.",
   "stats.years": "anni di esperienza",
   "stats.sites": "siti pubblicati",
   "stats.countries": "paesi serviti",
-
   "experience.title": "Esperienza",
   "experience.trustin.role": "Software Engineer",
   "experience.trustin.years": "2024 – Presente",
@@ -48,15 +46,12 @@
   "experience.headrun.role": "Associate Software Engineer",
   "experience.headrun.years": "2022 – 2024",
   "experience.headrun.note": "Ho realizzato interfacce responsive e cross-browser in HTML, CSS e JavaScript a partire da concept di design.",
-
   "education.title": "Formazione",
   "education.mca.degree": "MCA, Applicazioni Informatiche",
   "education.bsc.degree": "B.Sc, Informatica",
-
   "skills.title": "Stack principale",
   "skills.expert": "Esperto",
   "skills.advanced": "Avanzato",
-
   "services.title": "Cosa faccio",
   "services.react.title": "Sviluppo React",
   "services.react.desc": "App basate su componenti con una gestione dello stato pulita.",
@@ -66,11 +61,9 @@
   "services.performance.desc": "Caricamenti rapidi e interazioni fluide.",
   "services.api.title": "Integrazione API",
   "services.api.desc": "API REST e sincronizzazione dei dati in tempo reale.",
-
   "contact.title": "Hai un progetto? Parliamone.",
   "contact.email": "Email",
   "contact.linkedin": "LinkedIn",
   "contact.location": "Rajam, Andhra Pradesh, India",
-
   "footer.copyright": "© {year} {name}"
 }
