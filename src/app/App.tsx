@@ -23,6 +23,7 @@ import tailwind from '../app/assets/tailwind.png';
 import aaks from '../app/assets/aaks.png';
 import profile from '../app/assets/profile_pic.png';
 import trustinQatar from '../app/assets/trustin_qatar.png';
+import RocketBoy from './Rocketboy';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -574,6 +575,7 @@ function Portfolio({ locale, onLocaleChange }: { locale: LocaleCode; onLocaleCha
 
       {/* Language switcher: fixed on the right edge, vertically centred */}
       <LanguageSwitcher locale={locale} onChange={onLocaleChange} label={t('nav.language')} />
+      <RocketBoy/>
 
       {/* Hero */}
       <section id="top" className="flex min-h-[100svh] flex-col justify-between pb-8 pt-28 sm:pb-10">
